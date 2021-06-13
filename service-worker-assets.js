@@ -5,7 +5,7 @@
       "url": "appsettings.Development.json"
     },
     {
-      "hash": "sha256-mkpLeIssb4wa5nw2B5OcmdOUHSRrtZgzvoEPWcaeeUg=",
+      "hash": "sha256-UsOJOiOJh+db34jZZvRy8YXOxp1rJwGQQoGtvCrmnxs=",
       "url": "appsettings.json"
     },
     {
@@ -71,10 +71,6 @@
     {
       "hash": "sha256-tAgVdSu4an2PX0Oh4LNEBBZie6+JHXR6lm8nCQvO+E0=",
       "url": "manifest.json"
-    },
-    {
-      "hash": "sha256-DYJaR3ZQuAPCMKisfnvEyqk91D1qTXgiyt86oA9qFKg=",
-      "url": "sample-data\/weather.json"
     },
     {
       "hash": "sha256-2ldEe2K8ARFKSIBsv+Hr3iNQzq9qh1H\/dwdu2r+AIyY=",
@@ -429,5 +425,5 @@
       "url": "_framework\/blazor.webassembly.js"
     }
   ],
-  "version": "8giv2qJI"
+  "version": "tUqTh8Qb"
 };
