@@ -10,7 +10,11 @@
                 <RadzenProgressBar Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" Style="margin-bottom: 20px" />
 }
 
-    <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Agregar" Click="@InsertRow" />
+    <AuthorizeView Roles="Admin">
+        <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Agregar" Click="@InsertRow" />
+    </AuthorizeView>
+
+    
 
     <RadzenDataGrid @ref="linksGrid" Data="@links" TItem="Link" AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Simple" PageSize="5" AllowPaging="true" AllowSorting="true" ColumnWidth="300px"  EditMode="DataGridEditMode.Single"  RowUpdate="@OnUpdateRow" RowCreate="@OnCreateRow">
      <Columns>
@@ -28,29 +32,30 @@
                         <RadzenRegexValidator  Text="Ingrese un Link valido" Pattern="@uriRegex" Component="Link" Popup="true" />
                     </EditTemplate>
                 </RadzenDataGridColumn>
-                <RadzenDataGridColumn TItem="Link" Context="sampleBlazorModelsSampleOrder" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="100px">
-                    <Template Context="link">
-                        <RadzenButton Icon="edit" Size="ButtonSize.Small" Click="@(args => EditRow(link))" @onclick:stopPropagation="true">
-                        </RadzenButton>
-                    </Template>
-                    <EditTemplate Context="link">
-                        <RadzenButton Icon="save" Size="ButtonSize.Small" Click="@((args) => SaveRow(link))">
-                        </RadzenButton>
-                        <RadzenButton Icon="cancel" Size="ButtonSize.Small" ButtonStyle="ButtonStyle.Secondary" Click="@((args) => CancelEdit(link))">
-                        </RadzenButton>
-                    </EditTemplate>
-                </RadzenDataGridColumn>
-                <RadzenDataGridColumn TItem="Link" Context="link" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="70px">
-                    <Template Context="link">
-                        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" Click="@(args => DeleteRow(link))"  @onclick:stopPropagation="true">
-                        </RadzenButton>
-                    </Template>
-                    <EditTemplate Context="link">
-                        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" Click="@(args => DeleteRow(link))">
-                        </RadzenButton>
-                    </EditTemplate>
-                </RadzenDataGridColumn>
-
+                <AuthorizeView Roles="Admin">
+                    <RadzenDataGridColumn TItem="Link" Context="sampleBlazorModelsSampleOrder" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="100px">
+                        <Template Context="link">
+                            <RadzenButton Icon="edit" Size="ButtonSize.Small" Click="@(args => EditRow(link))" @onclick:stopPropagation="true">
+                            </RadzenButton>
+                        </Template>
+                        <EditTemplate Context="link">
+                            <RadzenButton Icon="save" Size="ButtonSize.Small" Click="@((args) => SaveRow(link))">
+                            </RadzenButton>
+                            <RadzenButton Icon="cancel" Size="ButtonSize.Small" ButtonStyle="ButtonStyle.Secondary" Click="@((args) => CancelEdit(link))">
+                            </RadzenButton>
+                        </EditTemplate>
+                    </RadzenDataGridColumn>
+                    <RadzenDataGridColumn TItem="Link" Context="link" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="70px">
+                        <Template Context="link">
+                            <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" Click="@(args => DeleteRow(link))"  @onclick:stopPropagation="true">
+                            </RadzenButton>
+                        </Template>
+                        <EditTemplate Context="link">
+                            <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" Click="@(args => DeleteRow(link))">
+                            </RadzenButton>
+                        </EditTemplate>
+                    </RadzenDataGridColumn>
+                </AuthorizeView>
             </Columns>
             </RadzenDataGrid>
 
@@ -61,6 +66,8 @@
     RadzenDataGrid<Link> linksGrid;
     string uriRegex = @"[(http(s)?):\/\/(www\.)?a-zA-Z0-9@@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@@:%_\+.~#?&//=]*)";
     bool loading = true;
+
+
     protected override async Task OnInitializedAsync()
     {
         var result = await ApiClient.GetAsync<OperationResult<IList<Link>>>("api/v1/links-module/links");
