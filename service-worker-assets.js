@@ -1,11 +1,11 @@
 ﻿self.assetsManifest = {
   "assets": [
     {
-      "hash": "sha256-UoqVuev8ZoEkPvYtpbk2C6WXQjBXOmuPKsI0ZOOrJH8=",
+      "hash": "sha256-wUwAKtiD2gR4ZTE5IG\/3vf3bHEplGqmt9ipy5xYJodo=",
       "url": "appsettings.Development.json"
     },
     {
-      "hash": "sha256-6c3ZVvVZxkI5OcGdNGaiO4PDtDg3e+\/JJ4vdWBg8NrM=",
+      "hash": "sha256-CyYesouF6st7pLJqBiyK2MLMM6eD2NW1l87IUHMnN+0=",
       "url": "appsettings.json"
     },
     {
@@ -65,7 +65,7 @@
       "url": "icon-512.png"
     },
     {
-      "hash": "sha256-XsxqD\/Wu2pIK5JjxUGTlKgnKuNjPj4qVuBYMbElq5S0=",
+      "hash": "sha256-+7U1+MxK8aW7FEW1fRgPnixzdoHKRcqEBJ+AkPo4khw=",
       "url": "index.html"
     },
     {
@@ -73,7 +73,7 @@
       "url": "js\/main.js"
     },
     {
-      "hash": "sha256-tAgVdSu4an2PX0Oh4LNEBBZie6+JHXR6lm8nCQvO+E0=",
+      "hash": "sha256-+T3Ujrw9h1PQ4iqVgaejlQHNCgFQQmxHIZxbFhZOlls=",
       "url": "manifest.json"
     },
     {
@@ -105,7 +105,7 @@
       "url": "_framework\/dotnet.5.0.0.js"
     },
     {
-      "hash": "sha256-7l6tL9Z4qfq39eImgmmB0ityxG7\/7FXQAaKs9y6kjYQ=",
+      "hash": "sha256-GCEHXFYG93tTH6DJisk0ma3egWPCTkdU3haaj7KWwsI=",
       "url": "LatinoNetOnline.Admin.styles.css"
     },
     {
@@ -309,7 +309,7 @@
       "url": "_framework\/System.Linq.Dynamic.Core.dll"
     },
     {
-      "hash": "sha256-fiSqY4BMsnohv+xF6pbBogwQatZjPoUJdLwYYhRJOEA=",
+      "hash": "sha256-DehzI4BzRQl83P0tjsFKCo56W9d04y10DHJl+KFonrQ=",
       "url": "_framework\/LatinoNetOnline.Admin.dll"
     },
     {
@@ -453,7 +453,7 @@
       "url": "_framework\/System.Private.CoreLib.dll"
     },
     {
-      "hash": "sha256-SLVmmYVIHPqyJzPhQbsZCXj8jt21VPsNVFIO15cogKg=",
+      "hash": "sha256-uG3dARNdzhrM1dueijMPyMPt33O5xZ8PHe5oCW972Yw=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -461,5 +461,5 @@
       "url": "_framework\/blazor.webassembly.js"
     }
   ],
-  "version": "w0aMJ9vf"
+  "version": "Td6+S5f+"
 };
