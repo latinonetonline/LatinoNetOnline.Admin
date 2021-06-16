@@ -209,7 +209,7 @@
       "url": "_content\/Microsoft.AspNetCore.Components.WebAssembly.Authentication\/AuthenticationService.js"
     },
     {
-      "hash": "sha256-cPw3ccQ\/9tFq5nezZbb+OWLww8s2zCTKJE2nBdzmY6s=",
+      "hash": "sha256-YkT5bRKyKXot5e9yvUADilZTgmacnGaCRIH8ugI0ydg=",
       "url": "_framework\/Microsoft.AspNetCore.Authorization.dll"
     },
     {
@@ -305,7 +305,7 @@
       "url": "_framework\/System.Linq.Dynamic.Core.dll"
     },
     {
-      "hash": "sha256-0hrGkBSKcs62rJuwb6246Pdk1elyOPgMf1RNJOQPUSI=",
+      "hash": "sha256-s0T+7xLvXQ4HfgfuZz4Yk5uYY7My9rGt\/T2svA\/xgwA=",
       "url": "_framework\/LatinoNetOnline.Admin.dll"
     },
     {
@@ -449,7 +449,7 @@
       "url": "_framework\/System.Private.CoreLib.dll"
     },
     {
-      "hash": "sha256-rXGriFpT8Pg\/47NZ7QPNo7NujysGDd7A\/JarEuQ8U2Y=",
+      "hash": "sha256-Ms6vmKX35j+qcw7szYzve2CkAOeMvXoXLOzjbzzKrb4=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -457,5 +457,5 @@
       "url": "_framework\/blazor.webassembly.js"
     }
   ],
-  "version": "7uAe35eM"
+  "version": "dx4x9TVl"
 };
