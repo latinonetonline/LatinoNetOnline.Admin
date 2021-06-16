@@ -1,6 +1,7 @@
 ﻿@page "/links"
 @inject ILinkService Service
 @inject NotificationService NotificationService
+@inject DialogService DialogService
 
 <h1>Acortador de Urls</h1>
 
@@ -32,6 +33,13 @@
 	<RadzenRegexValidator Text="Ingrese un Link valido" Pattern="@uriRegex" Component="Link" Popup="true" />
    </EditTemplate>
   </RadzenDataGridColumn>
+
+  <RadzenDataGridColumn TItem="Link" Property="Name" Title="Go">
+   <Template Context="link">
+	<CopyToClipboard Text="@GetGoLink(link)" />
+   </Template>
+  </RadzenDataGridColumn>
+
   <AuthorizeView Roles="Admin">
    <RadzenDataGridColumn TItem="Link" Context="sampleBlazorModelsSampleOrder" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="100px">
 	<Template Context="link">
@@ -58,7 +66,6 @@
   </AuthorizeView>
  </Columns>
 </RadzenDataGrid>
-
 
 @code {
 	private IList<Link> links;
@@ -107,20 +114,28 @@
 	{
 		if (links.Contains(link))
 		{
-			loading = true;
 
-			var response = await Service.DeleteAsync(link);
+			var result = await DialogService.Confirm($"¿Desea borrar el link {link.Name}?", "Eliminar Link", new ConfirmOptions() { OkButtonText = "Si", CancelButtonText = "No" });
 
-			if (response.IsSuccess)
+			if (result.HasValue && result.Value)
 			{
-				links.Remove(link);
+				loading = true;
+				StateHasChanged();
 
-				linksGrid.Reload();
+				var response = await Service.DeleteAsync(link);
+
+				if (response.IsSuccess)
+				{
+					links.Remove(link);
+
+					linksGrid.Reload();
+				}
+				else
+					ShowNotification("Error Eliminar Link", response);
+
+				loading = false;
+				StateHasChanged();
 			}
-			else
-				ShowNotification("Error Eliminar Link", response);
-
-			loading = false;
 		}
 		else
 			linksGrid.CancelEditRow(link);
@@ -148,4 +163,7 @@
 	{
 		NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = title, Detail = result.Error?.Code, Duration = 4000 });
 	}
+
+	string GetGoLink(Link link)
+		=> "https://go.latinonet.online/" + link.Name;
 }
