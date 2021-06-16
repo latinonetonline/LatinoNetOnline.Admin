@@ -46,6 +46,8 @@ namespace LatinoNetOnline.Admin
             builder.Services.AddScoped<TooltipService>();
             builder.Services.AddScoped<ContextMenuService>();
 
+            builder.Services.AddScoped<ILinkService, LinkService>();
+
             builder.Services.AddScoped<IApiClient, ApiClient>();
 
             await builder.Build().RunAsync();

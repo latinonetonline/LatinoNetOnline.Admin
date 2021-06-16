@@ -1,5 +1,5 @@
 ﻿@page "/links"
-@inject IApiClient ApiClient
+@inject ILinkService Service
 @inject NotificationService NotificationService
 
 <h1>Acortador de Urls</h1>
@@ -7,151 +7,145 @@
 
 @if (loading)
 {
-                <RadzenProgressBar Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" Style="margin-bottom: 20px" />
+	<RadzenProgressBar Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" Style="margin-bottom: 20px" />
 }
 
-    <AuthorizeView Roles="Admin">
-        <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Agregar" Click="@InsertRow" />
-    </AuthorizeView>
+<AuthorizeView Roles="Admin">
+ <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Agregar" Click="@InsertRow" />
+</AuthorizeView>
 
-    
 
-    <RadzenDataGrid @ref="linksGrid" Data="@links" TItem="Link" AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Simple" PageSize="5" AllowPaging="true" AllowSorting="true" ColumnWidth="300px"  EditMode="DataGridEditMode.Single"  RowUpdate="@OnUpdateRow" RowCreate="@OnCreateRow">
-     <Columns>
 
-                <RadzenDataGridColumn TItem="Link" Property="Name" Title="Nombre" Width="150px">
-                    <EditTemplate Context="link">
-                        <RadzenTextBox @bind-Value="link.Name" Style="width:100%; display: block" Name="Name" />
-                        <RadzenRequiredValidator Text="Ingrese un Nombre" Component="Name" Popup="true" />
-                    </EditTemplate>
-                    </RadzenDataGridColumn>
-                <RadzenDataGridColumn TItem="Link" Property="Url" Title="Link" >
-                     <EditTemplate Context="link">
-                        <RadzenTextBox @bind-Value="link.Url" Style="width:100%; display: block" Name="Link" />
-                        <RadzenRequiredValidator Text="Ingrese un Link valido" Component="Link" Popup="true" />
-                        <RadzenRegexValidator  Text="Ingrese un Link valido" Pattern="@uriRegex" Component="Link" Popup="true" />
-                    </EditTemplate>
-                </RadzenDataGridColumn>
-                <AuthorizeView Roles="Admin">
-                    <RadzenDataGridColumn TItem="Link" Context="sampleBlazorModelsSampleOrder" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="100px">
-                        <Template Context="link">
-                            <RadzenButton Icon="edit" Size="ButtonSize.Small" Click="@(args => EditRow(link))" @onclick:stopPropagation="true">
-                            </RadzenButton>
-                        </Template>
-                        <EditTemplate Context="link">
-                            <RadzenButton Icon="save" Size="ButtonSize.Small" Click="@((args) => SaveRow(link))">
-                            </RadzenButton>
-                            <RadzenButton Icon="cancel" Size="ButtonSize.Small" ButtonStyle="ButtonStyle.Secondary" Click="@((args) => CancelEdit(link))">
-                            </RadzenButton>
-                        </EditTemplate>
-                    </RadzenDataGridColumn>
-                    <RadzenDataGridColumn TItem="Link" Context="link" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="70px">
-                        <Template Context="link">
-                            <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" Click="@(args => DeleteRow(link))"  @onclick:stopPropagation="true">
-                            </RadzenButton>
-                        </Template>
-                        <EditTemplate Context="link">
-                            <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" Click="@(args => DeleteRow(link))">
-                            </RadzenButton>
-                        </EditTemplate>
-                    </RadzenDataGridColumn>
-                </AuthorizeView>
-            </Columns>
-            </RadzenDataGrid>
+<RadzenDataGrid @ref="linksGrid" Data="@links" TItem="Link" AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Simple" PageSize="5" AllowPaging="true" AllowSorting="true" ColumnWidth="300px" EditMode="DataGridEditMode.Single" RowUpdate="@OnUpdateRow" RowCreate="@OnCreateRow">
+ <Columns>
+
+  <RadzenDataGridColumn TItem="Link" Property="Name" Title="Nombre" Width="150px">
+   <EditTemplate Context="link">
+	<RadzenTextBox @bind-Value="link.Name" Style="width:100%; display: block" Name="Name" />
+	<RadzenRequiredValidator Text="Ingrese un Nombre" Component="Name" Popup="true" />
+   </EditTemplate>
+  </RadzenDataGridColumn>
+  <RadzenDataGridColumn TItem="Link" Property="Url" Title="Link">
+   <EditTemplate Context="link">
+	<RadzenTextBox @bind-Value="link.Url" Style="width:100%; display: block" Name="Link" />
+	<RadzenRequiredValidator Text="Ingrese un Link valido" Component="Link" Popup="true" />
+	<RadzenRegexValidator Text="Ingrese un Link valido" Pattern="@uriRegex" Component="Link" Popup="true" />
+   </EditTemplate>
+  </RadzenDataGridColumn>
+  <AuthorizeView Roles="Admin">
+   <RadzenDataGridColumn TItem="Link" Context="sampleBlazorModelsSampleOrder" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="100px">
+	<Template Context="link">
+	 <RadzenButton Icon="edit" Size="ButtonSize.Small" Click="@(args => EditRow(link))" @onclick:stopPropagation="true">
+	 </RadzenButton>
+	</Template>
+	<EditTemplate Context="link">
+	 <RadzenButton Icon="save" Size="ButtonSize.Small" Click="@((args) => SaveRow(link))">
+	 </RadzenButton>
+	 <RadzenButton Icon="cancel" Size="ButtonSize.Small" ButtonStyle="ButtonStyle.Secondary" Click="@((args) => CancelEdit(link))">
+	 </RadzenButton>
+	</EditTemplate>
+   </RadzenDataGridColumn>
+   <RadzenDataGridColumn TItem="Link" Context="link" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="70px">
+	<Template Context="link">
+	 <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" Click="@(args => DeleteRow(link))" @onclick:stopPropagation="true">
+	 </RadzenButton>
+	</Template>
+	<EditTemplate Context="link">
+	 <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" Click="@(args => DeleteRow(link))">
+	 </RadzenButton>
+	</EditTemplate>
+   </RadzenDataGridColumn>
+  </AuthorizeView>
+ </Columns>
+</RadzenDataGrid>
 
 
 @code {
-    private IList<Link> links;
+	private IList<Link> links;
 
-    RadzenDataGrid<Link> linksGrid;
-    string uriRegex = @"[(http(s)?):\/\/(www\.)?a-zA-Z0-9@@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@@:%_\+.~#?&//=]*)";
-    bool loading = true;
+	RadzenDataGrid<Link> linksGrid;
+	string uriRegex = @"[(http(s)?):\/\/(www\.)?a-zA-Z0-9@@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@@:%_\+.~#?&//=]*)";
+	bool loading = true;
 
 
-    protected override async Task OnInitializedAsync()
-    {
-        var result = await ApiClient.GetAsync<OperationResult<IList<Link>>>("api/v1/links-module/links");
+	protected override async Task OnInitializedAsync()
+	{
+		var result = await Service.GetAllAsync();
 
-        links = result.Result;
-        loading = false;
-    }
+		links = result.Result;
+		loading = false;
+	}
 
-    void EditRow(Link link)
-    {
-        linksGrid.EditRow(link);
-    }
+	void EditRow(Link link)
+	{
+		linksGrid.EditRow(link);
+	}
 
-    async Task OnUpdateRow(Link link)
-    {
-        loading = true;
+	async Task OnUpdateRow(Link link)
+	{
+		loading = true;
 
-        var response = await ApiClient.PutAsync<Link, OperationResult<Link>>("api/v1/links-module/links", link);
+		var response = await Service.UpdateAsync(link);
 
-        if (!response.IsSuccess)
-            ShowNotification("Error Modificar Link", response);
+		if (!response.IsSuccess)
+			ShowNotification("Error Modificar Link", response);
 
-        loading = false;
-    }
+		loading = false;
+	}
 
-    void SaveRow(Link link)
-    {
-        linksGrid.UpdateRow(link);
-    }
+	void SaveRow(Link link)
+	{
+		linksGrid.UpdateRow(link);
+	}
 
-    void CancelEdit(Link link)
-    {
-        linksGrid.CancelEditRow(link);
-    }
+	void CancelEdit(Link link)
+	{
+		linksGrid.CancelEditRow(link);
+	}
 
-    async Task DeleteRow(Link link)
-    {
-        if (links.Contains(link))
-        {
-            loading = true;
+	async Task DeleteRow(Link link)
+	{
+		if (links.Contains(link))
+		{
+			loading = true;
 
-            var response = await ApiClient.DeleteAsync<OperationResult>("api/v1/links-module/links/" + link.Name);
+			var response = await Service.DeleteAsync(link);
 
-            if (response.IsSuccess)
-            {
-                links.Remove(link);
+			if (response.IsSuccess)
+			{
+				links.Remove(link);
 
-                linksGrid.Reload();
-            }
-            else
-                ShowNotification("Error Eliminar Link", response);
+				linksGrid.Reload();
+			}
+			else
+				ShowNotification("Error Eliminar Link", response);
 
-            loading = false;
-        }
-        else
-            linksGrid.CancelEditRow(link);
+			loading = false;
+		}
+		else
+			linksGrid.CancelEditRow(link);
 
-    }
+	}
 
-    void InsertRow()
-    {
-        linksGrid.InsertRow(new Link());
-    }
+	void InsertRow()
+	{
+		linksGrid.InsertRow(new Link());
+	}
 
-    async Task OnCreateRow(Link link)
-    {
-        loading = true;
+	async Task OnCreateRow(Link link)
+	{
+		loading = true;
 
-        var response = await ApiClient.PostAsync<Link, OperationResult<Link>>("api/v1/links-module/links", link);
+		var response = await Service.CreateAsync(link);
 
-        if (!response.IsSuccess)
-            ShowNotification("Error Crear Link", response);
+		if (!response.IsSuccess)
+			ShowNotification("Error Crear Link", response);
 
-        loading = false;
-    }
+		loading = false;
+	}
 
-    void ShowNotification(string title, OperationResult result)
-    {
-        NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = title, Detail = result.Error?.Code, Duration = 4000 });
-    }
-
-    public class Link
-    {
-        public string Name { get; set; }
-        public string Url { get; set; }
-    }
+	void ShowNotification(string title, OperationResult result)
+	{
+		NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = title, Detail = result.Error?.Code, Duration = 4000 });
+	}
 }
