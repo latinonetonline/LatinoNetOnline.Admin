@@ -47,6 +47,7 @@ namespace LatinoNetOnline.Admin
             builder.Services.AddScoped<ContextMenuService>();
 
             builder.Services.AddScoped<ILinkService, LinkService>();
+            builder.Services.AddScoped<IUserService, UserService>();
 
             builder.Services.AddScoped<IApiClient, ApiClient>();
 

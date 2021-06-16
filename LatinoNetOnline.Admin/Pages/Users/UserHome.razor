@@ -1,0 +1,102 @@
+﻿@page "/users"
+@inject IUserService Service
+@inject NotificationService NotificationService
+@using Models.Users
+@attribute [Authorize (Roles = "Admin")]
+<h1>Usuarios</h1>
+
+
+@if (loading)
+{
+	<RadzenProgressBar Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" Style="margin-bottom: 20px" />
+}
+
+<RadzenDataGrid @ref="usersGrid" Data="@users" TItem="UserRolesDto" AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Simple" PageSize="5" AllowPaging="true" AllowSorting="true" ColumnWidth="300px" EditMode="DataGridEditMode.Single" RowUpdate="@OnUpdateRow">
+ <Columns>
+
+  <RadzenDataGridColumn TItem="UserRolesDto" Property="User.Name" Title="Nombre" Width="150px">
+  </RadzenDataGridColumn>
+
+  <RadzenDataGridColumn TItem="UserRolesDto" Property="User.Lastname" Title="Apellido" Width="150px">
+  </RadzenDataGridColumn>
+
+
+  <RadzenDataGridColumn TItem="UserRolesDto" Property="User.Email" Title="Email">
+  </RadzenDataGridColumn>
+
+  <RadzenDataGridColumn TItem="UserRolesDto" Property="Role" Title="Rol">
+   <EditTemplate Context="user">
+	<RadzenDropDown @bind-Value="user.Role" Data="@roles" TextProperty="Name" ValueProperty="Name" Style="width:100%" />
+   </EditTemplate>
+  </RadzenDataGridColumn>
+
+
+
+  <AuthorizeView Roles="Admin">
+   <RadzenDataGridColumn TItem="UserRolesDto" Context="sampleBlazorModelsSampleOrder" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="100px">
+	<Template Context="user">
+	 <RadzenButton Icon="edit" Size="ButtonSize.Small" Click="@(args => EditRow(user))" @onclick:stopPropagation="true">
+	 </RadzenButton>
+	</Template>
+	<EditTemplate Context="user">
+	 <RadzenButton Icon="save" Size="ButtonSize.Small" Click="@((args) => SaveRow(user))">
+	 </RadzenButton>
+	 <RadzenButton Icon="cancel" Size="ButtonSize.Small" ButtonStyle="ButtonStyle.Secondary" Click="@((args) => CancelEdit(user))">
+	 </RadzenButton>
+	</EditTemplate>
+   </RadzenDataGridColumn>
+  </AuthorizeView>
+ </Columns>
+</RadzenDataGrid>
+
+
+@code {
+	private IList<UserRolesDto> users;
+	private IList<Role> roles;
+
+	RadzenDataGrid<UserRolesDto> usersGrid;
+	bool loading = true;
+
+
+	protected override async Task OnInitializedAsync()
+	{
+		var resultUsers = await Service.GetAllAsync();
+		var resultRoles = await Service.GetAllRolesAsync();
+
+		users = resultUsers.Result.Items;
+		roles = resultRoles.Result;
+		loading = false;
+	}
+
+	void EditRow(UserRolesDto user)
+	{
+		usersGrid.EditRow(user);
+	}
+
+	async Task OnUpdateRow(UserRolesDto user)
+	{
+		loading = true;
+
+		var response = await Service.UpdateAsync(user);
+
+		if (!response.IsSuccess)
+			ShowNotification("Error Modificar Usuario", response);
+
+		loading = false;
+	}
+
+	void SaveRow(UserRolesDto user)
+	{
+		usersGrid.UpdateRow(user);
+	}
+
+	void CancelEdit(UserRolesDto user)
+	{
+		usersGrid.CancelEditRow(user);
+	}
+
+	void ShowNotification(string title, OperationResult result)
+	{
+		NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = title, Detail = result.Error?.Code, Duration = 4000 });
+	}
+}

@@ -1,6 +1,7 @@
 ﻿using LatinoNetOnline.Admin.Models;
 
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace LatinoNetOnline.Admin.Services
@@ -15,7 +16,7 @@ namespace LatinoNetOnline.Admin.Services
 
     public class LinkService : ILinkService
     {
-        const string URL = "api/v1/links-module/links/";
+        const string URL = "api/v1/links-module/links";
 
         private readonly IApiClient _apiClient;
 
@@ -34,6 +35,6 @@ namespace LatinoNetOnline.Admin.Services
             => _apiClient.PutAsync<Link, OperationResult<Link>>(URL, link);
 
         public Task<OperationResult> DeleteAsync(Link link)
-            => _apiClient.DeleteAsync<OperationResult>(URL + link.Name);
+            => _apiClient.DeleteAsync<OperationResult>(Path.Combine(URL, link.Name));
     }
 }
