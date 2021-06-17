@@ -1,13 +1,13 @@
 {
-  "name": "Latino .Net Online Admin",
-  "short_name": "LatinoNetOnline.Admin",
+  "name": "Latino NET Online App",
+  "short_name": "Latino NET Online App",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#5c2d91",
+  "background_color": "#ffffff",
   "theme_color": "#03173d",
   "icons": [
     {
-      "src": "https://latinonet.online/assets/img/latinonet/Logo%20Hexagono.png",
+      "src": "icon-512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
