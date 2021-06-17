@@ -69,7 +69,7 @@
       "url": "index.html"
     },
     {
-      "hash": "sha256-JqjEqK3jg79evy\/rHgKe69R0w2PG+Yfmuj8oD7W9Wt0=",
+      "hash": "sha256-oBBv3T6iQ7r6U9K8PX0TzWrsM4J1TnK4y5TSVLjh+Gg=",
       "url": "js\/main.js"
     },
     {
@@ -461,5 +461,5 @@
       "url": "_framework\/blazor.webassembly.js"
     }
   ],
-  "version": "ScBO4emP"
+  "version": "6qtpYYMO"
 };

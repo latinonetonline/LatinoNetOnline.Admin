@@ -82,4 +82,4 @@ function onMessage(event) {
     }
 }
 
-/* Manifest version: ScBO4emP */
+/* Manifest version: 6qtpYYMO */

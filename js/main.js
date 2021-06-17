@@ -11,10 +11,10 @@
 
 
 
-    let newWorker;
+    var newWorker;
 
     function showUpdateBar() {
-        let snackbar = document.getElementById('snackbar');
+        const snackbar = document.getElementById('snackbar');
         snackbar.className = 'show';
     }
 
@@ -45,7 +45,7 @@
             });
         });
 
-        let refreshing;
+        var refreshing;
         navigator.serviceWorker.addEventListener('controllerchange', function () {
             if (refreshing) return;
             window.location.reload();
