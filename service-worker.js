@@ -5,7 +5,7 @@ self.importScripts('./service-worker-assets.js');
 self.addEventListener('install', event => event.waitUntil(onInstall(event)));
 self.addEventListener('activate', event => event.waitUntil(onActivate(event)));
 self.addEventListener('fetch', event => event.respondWith(onFetch(event)));
-
+self.addEventListener('message', event => onMessage(event));
 
 self.addEventListener('push', function (event) {
     console.log('[Service Worker] Push Received.');
