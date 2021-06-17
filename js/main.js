@@ -11,11 +11,6 @@
 
 
 
-
-
-
-
-
     let newWorker;
 
     function showUpdateBar() {
