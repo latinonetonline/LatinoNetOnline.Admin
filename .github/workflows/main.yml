@@ -5,6 +5,8 @@ on:
   push:
     branches: [ main ]
 
+  workflow_dispatch:
+
 jobs:
   deploy-to-github-pages:
     # use ubuntu-latest image to run steps on
