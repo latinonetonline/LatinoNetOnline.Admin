@@ -9,7 +9,7 @@
       "url": "appsettings.json"
     },
     {
-      "hash": "sha256-SO\/fuIIWUxoIu1OABrOpK5n\/AvzxJcg+0H3PT1eutAE=",
+      "hash": "sha256-Q2OOnMpgSZPtUyOOJy\/5YUdu4MddPGYvUzhX0HafS0s=",
       "url": "css\/app.css"
     },
     {
@@ -61,19 +61,19 @@
       "url": "favicon.ico"
     },
     {
-      "hash": "sha256-IpHFcQvs03lh6W54zoeJRG1jW+VnGmwymzxLoXtKX7Y=",
+      "hash": "sha256-S51uIq9t\/D8b77sYlfJZmtB8tBJfCvrf4KL4dS\/gRB8=",
       "url": "icon-512.png"
     },
     {
-      "hash": "sha256-+7U1+MxK8aW7FEW1fRgPnixzdoHKRcqEBJ+AkPo4khw=",
+      "hash": "sha256-7k3PYDIZCURsjKxFfYS5HXtMosfy\/dH3TwKJ5eA0ceE=",
       "url": "index.html"
     },
     {
-      "hash": "sha256-XrQ3K2Z1kgdRkeMywf2TE6JDQnSdoYplqYkeZim2xyc=",
+      "hash": "sha256-HJs9DG7HOEEkL95yXIKh+nQvtNlzhP0KQ1QKwLaD52Y=",
       "url": "js\/main.js"
     },
     {
-      "hash": "sha256-+T3Ujrw9h1PQ4iqVgaejlQHNCgFQQmxHIZxbFhZOlls=",
+      "hash": "sha256-VQoctoy\/s7MsQrO2u4qfi1NKKHzNfHNLxExPft0xJVU=",
       "url": "manifest.json"
     },
     {
@@ -461,5 +461,5 @@
       "url": "_framework\/blazor.webassembly.js"
     }
   ],
-  "version": "Td6+S5f+"
+  "version": "0PKFxluj"
 };
