@@ -11,11 +11,14 @@ self.addEventListener('push', function (event) {
     console.log('[Service Worker] Push Received.');
     console.log(`[Service Worker] Push had this data: "${event.data.text()}"`);
 
-    const title = 'Push Codelab';
+    const payload = event.data.json();
+
+    const title = 'Latino .NET Online';
     const options = {
-        body: event.data.text(),
-        icon: 'images/icon.png',
-        badge: 'images/badge.png'
+        body: payload.message,
+        icon: 'icon-512.png',
+        badge: 'icon-512.png',
+        data: { url: payload.url }
     };
 
     const notificationPromise = self.registration.showNotification(title, options);
@@ -28,12 +31,8 @@ self.addEventListener('notificationclick', function (event) {
 
     event.notification.close();
 
-    event.waitUntil(
-        clients.openWindow('https://developers.google.com/web/')
-    );
+    event.waitUntil(clients.openWindow(event.notification.data.url));
 });
-
-
 
 const cacheNamePrefix = 'offline-cache-';
 const cacheName = `${cacheNamePrefix}${self.assetsManifest.version}`;
@@ -82,4 +81,4 @@ function onMessage(event) {
     }
 }
 
-/* Manifest version: 2ilk5U9J */
+/* Manifest version: sL4NBQ9A */

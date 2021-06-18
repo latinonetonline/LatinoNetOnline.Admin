@@ -1,7 +1,7 @@
 ﻿self.assetsManifest = {
   "assets": [
     {
-      "hash": "sha256-wUwAKtiD2gR4ZTE5IG\/3vf3bHEplGqmt9ipy5xYJodo=",
+      "hash": "sha256-3bl1VG16qlZym45fLBGLekfzG3z8tLLk9Q+72YX4CBs=",
       "url": "appsettings.Development.json"
     },
     {
@@ -65,12 +65,16 @@
       "url": "icon-512.png"
     },
     {
-      "hash": "sha256-U1JXY\/VPFaUv7THHoVL9YOiFQVBjt2TqiPzlVYXEu7s=",
+      "hash": "sha256-olX8JPCzMhEQNUdWp0YeBV7ge52Qx\/mqlh8EfT85umg=",
       "url": "index.html"
     },
     {
-      "hash": "sha256-4t7fOfhAdcl7rn\/KSMhK5uJWGG+D7S\/fJfsbo2uSAKE=",
+      "hash": "sha256-54JWt5ZS4qCSfEAtBtNbFG87zMineWsvgPSXAJfoGuI=",
       "url": "js\/main.js"
+    },
+    {
+      "hash": "sha256-AQ\/6JdqI3CeJCL74qkk0jGHReG6OaD\/2s29BAyKUFpY=",
+      "url": "js\/pushNotifications.js"
     },
     {
       "hash": "sha256-VQoctoy\/s7MsQrO2u4qfi1NKKHzNfHNLxExPft0xJVU=",
@@ -309,7 +313,7 @@
       "url": "_framework\/System.Linq.Dynamic.Core.dll"
     },
     {
-      "hash": "sha256-DehzI4BzRQl83P0tjsFKCo56W9d04y10DHJl+KFonrQ=",
+      "hash": "sha256-\/86vR+sE9r8V1nSdjOXdxg1aivO8AxIxnUcTrTGpKSM=",
       "url": "_framework\/LatinoNetOnline.Admin.dll"
     },
     {
@@ -453,7 +457,7 @@
       "url": "_framework\/System.Private.CoreLib.dll"
     },
     {
-      "hash": "sha256-uG3dARNdzhrM1dueijMPyMPt33O5xZ8PHe5oCW972Yw=",
+      "hash": "sha256-qlvCI0lG6lo+jZZLpGzJDFGFlNYX3a2ZgvTJ24NTCDU=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -461,5 +465,5 @@
       "url": "_framework\/blazor.webassembly.js"
     }
   ],
-  "version": "2ilk5U9J"
+  "version": "sL4NBQ9A"
 };
