@@ -1,7 +1,19 @@
 @page "/authentication/{action}"
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
-<RemoteAuthenticatorView Action="@Action" />
+@inject IJSRuntime JSRuntime
+@inject IApiClient ApiClient
+<RemoteAuthenticatorView Action="@Action" OnLogInSucceeded="RequestNotificationSubscriptionAsync"/>
 
 @code{
     [Parameter] public string Action { get; set; }
+
+
+    async Task RequestNotificationSubscriptionAsync()
+    {
+        var subscription = await JSRuntime.InvokeAsync<NotificationSubscription>("blazorPushNotifications.requestSubscription");
+        if (subscription != null)
+        {
+               await ApiClient.PostAsync<NotificationSubscription, OperationResult<NotificationSubscription>>("api/v1/notifications-module/Devices", subscription);
+        }
+    }
 }

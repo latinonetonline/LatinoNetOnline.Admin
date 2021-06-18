@@ -1,0 +1,27 @@
+﻿@page "/notifications"
+@inject IApiClient ApiClient
+<h3>NotificationHome</h3>
+
+        <RadzenTextBox Placeholder="Mensaje" @bind-Value=message/>
+
+        <RadzenButton Click=@(args => EnviarNotification()) Text="Enviar" Style="margin-bottom: 20px; width: 150px" />
+@code {
+
+    string message = string.Empty;
+
+    async Task EnviarNotification()
+    {
+        SendNotification sendNotification = new();
+        sendNotification.Message = message;
+        sendNotification.Url = "https://latinonet.online/";
+        await ApiClient.PostAsync<SendNotification, OperationResult>("api/v1/notifications-module/WebPush/Send", sendNotification);
+    }
+
+    class SendNotification
+    {
+        public Guid? DeviceId { get; set; }
+        public string Message { get; set; }
+        public string Url { get; set; }
+    }
+
+}
