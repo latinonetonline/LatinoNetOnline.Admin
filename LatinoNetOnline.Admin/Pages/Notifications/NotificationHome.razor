@@ -1,27 +1,196 @@
 ﻿@page "/notifications"
-@inject IApiClient ApiClient
-<h3>NotificationHome</h3>
+@inject IDeviceService DeviceService
+@inject IUserService UserService
+@inject NotificationService NotificationService
+@inject ContextMenuService ContextMenuService
+@inject DialogService DialogService
+@attribute [Authorize (Roles = "Admin")]
 
-        <RadzenTextBox Placeholder="Mensaje" @bind-Value=message/>
+@if (loading)
+{
+	<RadzenProgressBar Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" Style="margin-bottom: 20px" />
+}
+else
+{
 
-        <RadzenButton Click=@(args => EnviarNotification()) Text="Enviar" Style="margin-bottom: 20px; width: 150px" />
+	<h3>Enviar Notificaciones</h3>
+
+	<RadzenTextBox Placeholder="Mensaje" @bind-Value=message />
+	<RadzenTextBox Placeholder="Link" @bind-Value=url />
+
+	<RadzenButton Click=@(args => EnviarNotification()) Text="Enviar" Style="margin-bottom: 20px; width: 150px" />
+
+	<div class="row">
+	 <div class="col-md-6">
+	  <RadzenDataGrid ColumnWidth="200px" AllowFiltering="true" AllowPaging="true" PageSize="3" AllowSorting="true" Data="@users" TItem="UserRolesDto" @bind-Value="@SelectedUsers" SelectionMode="DataGridSelectionMode.Multiple">
+	   <Columns>
+		<RadzenDataGridColumn TItem="UserRolesDto" Width="40px" Sortable="false" Filterable="false">
+		 <HeaderTemplate>
+		  <RadzenCheckBox TriState="false" TValue="bool" Value="@(users.Any(i => SelectedUsers != null && SelectedUsers.Contains(i)))"
+										Change="@(args => SelectedUsers = args ? users.ToList() : null)" />
+		 </HeaderTemplate>
+		 <Template Context="data">
+		  <RadzenCheckBox TriState="false" Value="@(SelectedUsers != null && SelectedUsers.Contains(data))" />
+		 </Template>
+		</RadzenDataGridColumn>
+
+		<RadzenDataGridColumn TItem="UserRolesDto" Property="User.Name" Title="Nombre" Width="150px" />
+		<RadzenDataGridColumn TItem="UserRolesDto" Property="User.Lastname" Title="Apellido" Width="150px" />
+		<RadzenDataGridColumn TItem="UserRolesDto" Property="User.Email" Title="Email" />
+		<RadzenDataGridColumn TItem="UserRolesDto" Property="Role" Title="Rol" />
+	   </Columns>
+	  </RadzenDataGrid>
+	 </div>
+	 <div class="col-md-6">
+	  <RadzenCard Style="margin-bottom:20px">
+	   Dispositivos:
+
+				@if (SelectedUsers?.Count() <= 1)
+				{
+		   <b>@SelectedUsers?.FirstOrDefault()?.User.Name @SelectedUsers?.FirstOrDefault()?.User.Lastname</b>
+
+				}
+				else
+				{
+		   <b>@SelectedUsers?.Count() Usuarios Seleccionados</b>
+
+				}
+				@if (SelectedDevices?.Any() ?? false)
+				{
+		   <b>@SelectedDevices?.Count() Dispositivos Seleccionados</b>
+				}
+	  </RadzenCard>
+
+			@if (SelectedUsers is not null)
+			{
+		  <RadzenDataGrid @ref=devicesGrid AllowFiltering="true" AllowPaging="true" AllowSorting="true"
+						Data="@(GetDeviceData())"
+						TItem="Device" SelectionMode="DataGridSelectionMode.Multiple" @bind-Value="@SelectedDevices">
+		   <Columns>
+			<RadzenDataGridColumn TItem="Device" Width="40px" Sortable="false" Filterable="false">
+			 <HeaderTemplate>
+			  <RadzenCheckBox TriState="false" TValue="bool" Value="@(GetDeviceData().Any(i => SelectedDevices != null && SelectedDevices.Contains(i)))"
+										Change="@(args => SelectedDevices = args ? GetDeviceData().ToList() : null)" />
+			 </HeaderTemplate>
+			 <Template Context="data">
+			  <RadzenCheckBox TriState="false" Value="@(SelectedDevices != null && SelectedDevices.Contains(data))" />
+			 </Template>
+			</RadzenDataGridColumn>
+			<RadzenDataGridColumn TItem="Device" Property="OperativeSystem" Title="Sistema Operativo" />
+			<RadzenDataGridColumn TItem="Device" Property="Name" Title="Nombre Dispositivo" />
+			<RadzenDataGridColumn TItem="Device" Context="device" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="70px">
+			 <Template Context="device">
+			  <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" Click="@(args => DeleteRow(device))" @onclick:stopPropagation="true">
+			  </RadzenButton>
+			 </Template>
+			 <EditTemplate Context="device">
+			  <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" Click="@(args => DeleteRow(device))">
+			  </RadzenButton>
+			 </EditTemplate>
+			</RadzenDataGridColumn>
+		   </Columns>
+		  </RadzenDataGrid>
+			}
+
+
+
+	 </div>
+	</div>
+}
+
+
 @code {
 
-    string message = string.Empty;
 
-    async Task EnviarNotification()
-    {
-        SendNotification sendNotification = new();
-        sendNotification.Message = message;
-        sendNotification.Url = "https://latinonet.online/";
-        await ApiClient.PostAsync<SendNotification, OperationResult>("api/v1/notifications-module/WebPush/Send", sendNotification);
-    }
+	IList<UserRolesDto> SelectedUsers { get; set; } = new List<UserRolesDto>();
+	IList<Device> SelectedDevices { get; set; }
+	IList<UserRolesDto> users;
+	IList<Device> devices;
+	RadzenDataGrid<Device> devicesGrid;
+	bool loading = true;
+	string message = string.Empty;
+	string url = "https://latinonet.online/";
 
-    class SendNotification
-    {
-        public Guid? DeviceId { get; set; }
-        public string Message { get; set; }
-        public string Url { get; set; }
-    }
+
+	protected override async Task OnInitializedAsync()
+	{
+		var devicesResult = await DeviceService.GetAllAsync(new());
+		devices = devicesResult.Result;
+
+
+		var usersResult = await UserService.GetAllAsync(new()
+		{
+			Users = devices.Select(x => x.UserId.ToString())
+		});
+
+		users = usersResult.Result.Items;
+
+		loading = false;
+	}
+
+	IEnumerable<Device> GetDeviceData()
+	{
+		return devices.Where(x => x.UserId.HasValue && SelectedUsers.Select(u => u.User.Id).Contains(x.UserId.Value));
+	}
+
+
+	async Task EnviarNotification()
+	{
+		SendNotificationInput sendNotification = new();
+		sendNotification.Devices = SelectedDevices?.Select(x => x.Id) ?? new List<Guid>();
+		sendNotification.Message = message;
+		sendNotification.Url = url;
+
+		var result = await DeviceService.SendNotificationAsync(sendNotification);
+
+		if (result.IsSuccess)
+		{
+			NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Se envió la notificación a todos!", Duration = 2000 });
+		}
+		else
+		{
+			NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = "Hubo un error al enviar la notificación.", Duration = 2000 });
+		}
+	}
+
+
+	async Task DeleteRow(Device device)
+	{
+		if (devices.Contains(device))
+		{
+			var user = users.First(x => x.User.Id == device.UserId.Value);
+			var result = await DialogService.Confirm($"¿Desea eliminar el dispositivo {device.OperativeSystem} de {user.User.Name} {user.User.Lastname}?", "Eliminar Dispositivo", new ConfirmOptions() { OkButtonText = "Si", CancelButtonText = "No" });
+
+			if (result.HasValue && result.Value)
+			{
+				loading = true;
+				StateHasChanged();
+
+				var response = await DeviceService.DeleteDeviceAsync(device.Id);
+
+				if (response.IsSuccess)
+				{
+					devices.Remove(device);
+
+					devicesGrid.Reload();
+				}
+				else
+					ShowNotification("Error Eliminar Link", response);
+
+				loading = false;
+				StateHasChanged();
+			}
+		}
+		else
+			devicesGrid.CancelEditRow(device);
+
+	}
+
+
+	void ShowNotification(string title, OperationResult result)
+	{
+		NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = title, Detail = result.Error?.Code, Duration = 4000 });
+	}
+
 
 }

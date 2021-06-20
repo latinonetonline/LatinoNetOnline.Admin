@@ -1,4 +1,5 @@
-﻿using LatinoNetOnline.Admin.Models;
+﻿using LatinoNetOnline.Admin.Helpers.QueryParams;
+using LatinoNetOnline.Admin.Models;
 using LatinoNetOnline.Admin.Models.Users;
 
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ namespace LatinoNetOnline.Admin.Services
     public interface IUserService
     {
         Task<OperationResult<UserQueryFilteredDto>> GetAllAsync();
+        Task<OperationResult<UserQueryFilteredDto>> GetAllAsync(UserFilter filter);
         Task<OperationResult<IList<Role>>> GetAllRolesAsync();
         Task<OperationResult<UserRolesDto>> UpdateAsync(UserRolesDto userRoles);
     }
@@ -26,6 +28,9 @@ namespace LatinoNetOnline.Admin.Services
 
         public Task<OperationResult<UserQueryFilteredDto>> GetAllAsync()
             => _apiClient.GetAsync<OperationResult<UserQueryFilteredDto>>(URL + "suggestions");
+
+        public Task<OperationResult<UserQueryFilteredDto>> GetAllAsync(UserFilter filter)
+            => _apiClient.GetAsync<OperationResult<UserQueryFilteredDto>>(URL + "suggestions" + filter.ToQueryParams());
 
         public Task<OperationResult<IList<Role>>> GetAllRolesAsync()
             => _apiClient.GetAsync<OperationResult<IList<Role>>>(URL + "GetAllRoles");
