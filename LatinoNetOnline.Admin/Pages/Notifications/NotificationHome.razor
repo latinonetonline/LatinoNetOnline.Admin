@@ -117,13 +117,20 @@ else
 		var devicesResult = await DeviceService.GetAllAsync(new());
 		devices = devicesResult.Result;
 
-
-		var usersResult = await UserService.GetAllAsync(new()
+		if (devices.Any())
 		{
-			Users = devices.Select(x => x.UserId.ToString())
-		});
+			var usersResult = await UserService.GetAllAsync(new()
+			{
+				Users = devices.Select(x => x.UserId.ToString())
+			});
 
-		users = usersResult.Result.Items;
+			users = usersResult.Result.Items;	
+		}
+		else
+		{
+			users = new List<UserRolesDto>();
+		}
+		
 
 		loading = false;
 	}

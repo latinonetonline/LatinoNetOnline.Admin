@@ -12,6 +12,7 @@ namespace LatinoNetOnline.Admin.Services
     {
         Task<OperationResult> DeleteDeviceAsync(Guid deviceId);
         Task<OperationResult<IList<Device>>> GetAllAsync(DeviceFilter filter);
+        Task<OperationResult<VapidPublicKey>> GetVapidPublicKeyAsync();
         Task<OperationResult> SendNotificationAsync(SendNotificationInput input);
         Task<OperationResult<Device>> SubscribeDeviceAsync(SubscriptionDeviceInput input);
     }
@@ -29,6 +30,9 @@ namespace LatinoNetOnline.Admin.Services
 
         public Task<OperationResult<IList<Device>>> GetAllAsync(DeviceFilter filter)
             => _apiClient.GetAsync<OperationResult<IList<Device>>>(URL + filter.ToQueryParams());
+
+        public Task<OperationResult<VapidPublicKey>> GetVapidPublicKeyAsync()
+            => _apiClient.GetAsync<OperationResult<VapidPublicKey>>(URL + "/GetVapidPublicKey");
 
         public Task<OperationResult<Device>> SubscribeDeviceAsync(SubscriptionDeviceInput input)
             => _apiClient.PostAsync<SubscriptionDeviceInput, OperationResult<Device>>(URL + "/subscribe", input);

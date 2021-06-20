@@ -10,7 +10,9 @@
 
     async Task RequestNotificationSubscriptionAsync()
     {
-        var subscription = await JSRuntime.InvokeAsync<SubscriptionDeviceInput>("blazorPushNotifications.requestSubscription");
+        var vapidPublicKey = await DeviceService.GetVapidPublicKeyAsync();
+
+        var subscription = await JSRuntime.InvokeAsync<SubscriptionDeviceInput>("blazorPushNotifications.requestSubscription", vapidPublicKey.Result.PublicKey);
         if (subscription != null)
         {
             await DeviceService.SubscribeDeviceAsync(subscription);
