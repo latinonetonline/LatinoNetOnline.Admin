@@ -22,7 +22,7 @@ else
 
 	<div class="row">
 	 <div class="col-md-6">
-	  <RadzenDataGrid ColumnWidth="200px" AllowFiltering="true" AllowPaging="true" PageSize="3" AllowSorting="true" Data="@users" TItem="UserRolesDto" @bind-Value="@SelectedUsers" SelectionMode="DataGridSelectionMode.Multiple">
+	  <RadzenDataGrid ColumnWidth="200px" AllowFiltering="true" AllowPaging="true" PageSize="10" AllowSorting="true" Data="@users" TItem="UserRolesDto" @bind-Value="@SelectedUsers" SelectionMode="DataGridSelectionMode.Multiple">
 	   <Columns>
 		<RadzenDataGridColumn TItem="UserRolesDto" Width="40px" Sortable="false" Filterable="false">
 		 <HeaderTemplate>
@@ -47,7 +47,7 @@ else
 
 				@if (SelectedUsers?.Count() <= 1)
 				{
-		   <b>@SelectedUsers?.FirstOrDefault()?.User.Name @SelectedUsers?.FirstOrDefault()?.User.Lastname</b>
+		   <b>@SelectedUsers?.FirstOrDefault()?.Name @SelectedUsers?.FirstOrDefault()?.Lastname</b>
 
 				}
 				else
@@ -124,7 +124,7 @@ else
 				Users = devices.Select(x => x.UserId.ToString())
 			});
 
-			users = usersResult.Result.Items;	
+			users = usersResult.Result.ToList();	
 		}
 		else
 		{
@@ -137,7 +137,7 @@ else
 
 	IEnumerable<Device> GetDeviceData()
 	{
-		return devices.Where(x => x.UserId.HasValue && SelectedUsers.Select(u => u.User.Id).Contains(x.UserId.Value));
+		return devices.Where(x => x.UserId.HasValue && SelectedUsers.Select(u => u.Id).Contains(x.UserId.Value));
 	}
 
 
@@ -165,8 +165,8 @@ else
 	{
 		if (devices.Contains(device))
 		{
-			var user = users.First(x => x.User.Id == device.UserId.Value);
-			var result = await DialogService.Confirm($"¿Desea eliminar el dispositivo {device.OperativeSystem} de {user.User.Name} {user.User.Lastname}?", "Eliminar Dispositivo", new ConfirmOptions() { OkButtonText = "Si", CancelButtonText = "No" });
+			var user = users.First(x => x.Id == device.UserId.Value);
+			var result = await DialogService.Confirm($"¿Desea eliminar el dispositivo {device.OperativeSystem} de {user.Name} {user.Lastname}?", "Eliminar Dispositivo", new ConfirmOptions() { OkButtonText = "Si", CancelButtonText = "No" });
 
 			if (result.HasValue && result.Value)
 			{

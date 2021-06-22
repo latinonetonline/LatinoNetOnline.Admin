@@ -6,5 +6,6 @@ namespace LatinoNetOnline.Admin.Models.Users
     {
         public IEnumerable<string> Users { get; set; }
         public string Search { get; set; }
+        public string Role { get; set; }
     }
 }

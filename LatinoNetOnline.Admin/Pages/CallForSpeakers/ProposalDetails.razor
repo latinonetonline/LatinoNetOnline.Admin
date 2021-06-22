@@ -1,0 +1,45 @@
+@page "/callforspeakers/{Id:guid}"
+@inject IProposalService ProposalService
+
+@if (loading)
+{
+    <RadzenProgressBar Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" Style="margin-bottom: 20px" />
+}
+else
+{
+    <h1>@proposal.Proposal.Title</h1>
+
+    <RadzenTabs  style="height: 880px" RenderMode="TabRenderMode.Client">
+            <Tabs>
+                <RadzenTabsItem Text="Speakers">
+                </RadzenTabsItem>
+
+                <RadzenTabsItem Text="Charla">
+                </RadzenTabsItem>
+
+                <RadzenTabsItem Text="Preguntas">
+                </RadzenTabsItem>
+
+            </Tabs>
+
+    </RadzenTabs>
+}
+
+
+@code{
+    [Parameter]
+    public Guid Id {get; set;}
+
+    ProposalFull proposal;
+    bool loading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        var proposalResult = await ProposalService.GetByIdAsync(Id);
+        proposal = proposalResult.Result;
+
+
+        loading = false;
+    }
+}

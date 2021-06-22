@@ -9,8 +9,8 @@ namespace LatinoNetOnline.Admin.Services
 {
     public interface IUserService
     {
-        Task<OperationResult<UserQueryFilteredDto>> GetAllAsync();
-        Task<OperationResult<UserQueryFilteredDto>> GetAllAsync(UserFilter filter);
+        Task<OperationResult<IEnumerable<UserRolesDto>>> GetAllAsync();
+        Task<OperationResult<IEnumerable<UserRolesDto>>> GetAllAsync(UserFilter filter);
         Task<OperationResult<IList<Role>>> GetAllRolesAsync();
         Task<OperationResult<UserRolesDto>> UpdateAsync(UserRolesDto userRoles);
     }
@@ -26,11 +26,11 @@ namespace LatinoNetOnline.Admin.Services
             _apiClient = apiClient;
         }
 
-        public Task<OperationResult<UserQueryFilteredDto>> GetAllAsync()
-            => _apiClient.GetAsync<OperationResult<UserQueryFilteredDto>>(URL + "suggestions");
+        public Task<OperationResult<IEnumerable<UserRolesDto>>> GetAllAsync()
+            => GetAllAsync(new());
 
-        public Task<OperationResult<UserQueryFilteredDto>> GetAllAsync(UserFilter filter)
-            => _apiClient.GetAsync<OperationResult<UserQueryFilteredDto>>(URL + "suggestions" + filter.ToQueryParams());
+        public Task<OperationResult<IEnumerable<UserRolesDto>>> GetAllAsync(UserFilter filter)
+            => _apiClient.GetAsync<OperationResult<IEnumerable<UserRolesDto>>>(URL + "suggestions" + filter.ToQueryParams());
 
         public Task<OperationResult<IList<Role>>> GetAllRolesAsync()
             => _apiClient.GetAsync<OperationResult<IList<Role>>>(URL + "GetAllRoles");

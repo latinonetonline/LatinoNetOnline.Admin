@@ -17,7 +17,7 @@
 
 
 
-<RadzenDataGrid @ref="linksGrid" Data="@links" TItem="Link" AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Simple" PageSize="5" AllowPaging="true" AllowSorting="true" ColumnWidth="300px" EditMode="DataGridEditMode.Single" RowUpdate="@OnUpdateRow" RowCreate="@OnCreateRow">
+<RadzenDataGrid @ref="linksGrid" Data="@links" TItem="Link" AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Simple" PageSize="10" AllowPaging="true" AllowSorting="true" ColumnWidth="300px" EditMode="DataGridEditMode.Single" RowUpdate="@OnUpdateRow" RowCreate="@OnCreateRow">
  <Columns>
 
   <RadzenDataGridColumn TItem="Link" Property="Name" Title="Nombre" Width="150px">
@@ -43,23 +43,23 @@
   <AuthorizeView Roles="Admin">
    <RadzenDataGridColumn TItem="Link" Context="sampleBlazorModelsSampleOrder" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="100px">
 	<Template Context="link">
-	 <RadzenButton Icon="edit" Size="ButtonSize.Small" Click="@(args => EditRow(link))" @onclick:stopPropagation="true">
+	 <RadzenButton Icon="edit" Size="ButtonSize.Medium" Click="@(args => EditRow(link))" @onclick:stopPropagation="true">
 	 </RadzenButton>
 	</Template>
 	<EditTemplate Context="link">
-	 <RadzenButton Icon="save" Size="ButtonSize.Small" Click="@((args) => SaveRow(link))">
+	 <RadzenButton Icon="save" Size="ButtonSize.Medium" Click="@((args) => SaveRow(link))">
 	 </RadzenButton>
-	 <RadzenButton Icon="cancel" Size="ButtonSize.Small" ButtonStyle="ButtonStyle.Secondary" Click="@((args) => CancelEdit(link))">
+	 <RadzenButton Icon="cancel" Size="ButtonSize.Medium" ButtonStyle="ButtonStyle.Secondary" Click="@((args) => CancelEdit(link))">
 	 </RadzenButton>
 	</EditTemplate>
    </RadzenDataGridColumn>
    <RadzenDataGridColumn TItem="Link" Context="link" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="70px">
 	<Template Context="link">
-	 <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" Click="@(args => DeleteRow(link))" @onclick:stopPropagation="true">
+	 <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Medium" Click="@(args => DeleteRow(link))" @onclick:stopPropagation="true">
 	 </RadzenButton>
 	</Template>
 	<EditTemplate Context="link">
-	 <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" Click="@(args => DeleteRow(link))">
+	 <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Medium" Click="@(args => DeleteRow(link))">
 	 </RadzenButton>
 	</EditTemplate>
    </RadzenDataGridColumn>

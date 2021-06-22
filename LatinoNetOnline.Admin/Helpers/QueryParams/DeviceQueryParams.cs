@@ -1,5 +1,7 @@
 ﻿using LatinoNetOnline.Admin.Models.Notifications;
 
+using System.Linq;
+
 namespace LatinoNetOnline.Admin.Helpers.QueryParams
 {
     static class DeviceQueryParams
@@ -8,8 +10,13 @@ namespace LatinoNetOnline.Admin.Helpers.QueryParams
         {
             string queryParams = string.Empty;
 
-            if (filter.UserId.HasValue)
-                queryParams = QueryParamsHelper.AddParams(queryParams, $"userId={filter.UserId.Value}");
+            if (filter.Users?.Any() ?? false)
+            {
+                foreach (var userId in filter.Users)
+                {
+                    queryParams = QueryParamsHelper.AddParams(queryParams, $"users={userId}");
+                }
+            }
 
             if (!string.IsNullOrWhiteSpace(filter.OperativeSystem))
                 queryParams = QueryParamsHelper.AddParams(queryParams, $"operativeSystem={filter.OperativeSystem}");

@@ -32,20 +32,18 @@
 
 
 
-  <AuthorizeView Roles="Admin">
    <RadzenDataGridColumn TItem="UserRolesDto" Context="sampleBlazorModelsSampleOrder" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="100px">
 	<Template Context="user">
-	 <RadzenButton Icon="edit" Size="ButtonSize.Small" Click="@(args => EditRow(user))" @onclick:stopPropagation="true">
+	 <RadzenButton Icon="edit" Size="ButtonSize.Medium" Click="@(args => EditRow(user))" @onclick:stopPropagation="true">
 	 </RadzenButton>
 	</Template>
 	<EditTemplate Context="user">
-	 <RadzenButton Icon="save" Size="ButtonSize.Small" Click="@((args) => SaveRow(user))">
+	 <RadzenButton Icon="save" Size="ButtonSize.Medium" Click="@((args) => SaveRow(user))">
 	 </RadzenButton>
-	 <RadzenButton Icon="cancel" Size="ButtonSize.Small" ButtonStyle="ButtonStyle.Secondary" Click="@((args) => CancelEdit(user))">
+	 <RadzenButton Icon="cancel" Size="ButtonSize.Medium" ButtonStyle="ButtonStyle.Secondary" Click="@((args) => CancelEdit(user))">
 	 </RadzenButton>
 	</EditTemplate>
    </RadzenDataGridColumn>
-  </AuthorizeView>
  </Columns>
 </RadzenDataGrid>
 
@@ -63,7 +61,7 @@
 		var resultUsers = await Service.GetAllAsync();
 		var resultRoles = await Service.GetAllRolesAsync();
 
-		users = resultUsers.Result.Items;
+		users = resultUsers.Result.ToList();
 		roles = resultRoles.Result;
 		loading = false;
 	}
