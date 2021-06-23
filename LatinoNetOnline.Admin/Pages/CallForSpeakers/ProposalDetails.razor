@@ -1,6 +1,10 @@
 @page "/callforspeakers/{Id:guid}"
+@attribute [Authorize(Roles = "Admin")]
 @using LatinoNetOnline.Admin.Pages.CallForSpeakers.Components
 @inject IProposalService ProposalService
+@inject NotificationService NotificationService
+@inject DialogService DialogService
+@inject NavigationManager NavigationManager
 
 @if (loading)
 {
@@ -10,29 +14,35 @@ else
 {
     <h1>@proposal.Proposal.Title</h1>
 
-    <RadzenTabs  style="height: 880px" RenderMode="TabRenderMode.Client">
-            <Tabs>
-                <RadzenTabsItem Text="Speakers">
-                    <SpeakerTab Speakers="proposal.Speakers" />
-                </RadzenTabsItem>
+    <RadzenTabs style="max-height: 600px" RenderMode="TabRenderMode.Client">
+        <Tabs>
+            <RadzenTabsItem Text="Speakers">
+                <SpeakerTab Speakers="proposal.Speakers" />
+            </RadzenTabsItem>
 
-                <RadzenTabsItem Text="Charla">
-                    <ProposalTab Proposal="proposal.Proposal" />
-                </RadzenTabsItem>
+            <RadzenTabsItem Text="Charla">
+                <ProposalTab Proposal="proposal.Proposal" />
+            </RadzenTabsItem>
 
-                <RadzenTabsItem Text="Preguntas">
-                    <QuestionTab Proposal="proposal.Proposal" />
-                </RadzenTabsItem>
+            <RadzenTabsItem Text="Preguntas">
+                <QuestionTab Proposal="proposal.Proposal" />
+            </RadzenTabsItem>
 
-            </Tabs>
+        </Tabs>
 
     </RadzenTabs>
+    <div class="row">
+
+        <RadzenButton Size="ButtonSize.Medium" ButtonStyle="ButtonStyle.Success" Text="Confirmar" Icon="verified" />
+        <RadzenButton Size="ButtonSize.Medium" Text="Editar" Icon="edit" />
+        <RadzenButton Size="ButtonSize.Medium" ButtonStyle="ButtonStyle.Danger" Text="Eliminar" Icon="close" Click="args => Delete()"/>
+    </div>
 }
 
 
-@code{
+@code {
     [Parameter]
-    public Guid Id {get; set;}
+    public Guid Id { get; set; }
 
     ProposalFull proposal;
     bool loading = true;
@@ -45,5 +55,40 @@ else
 
 
         loading = false;
+    }
+
+    async Task Delete()
+    {
+        var result = await DialogService.Confirm($"¿Desea borrar la charla?", "Eliminar Charla", new ConfirmOptions()
+        {
+            OkButtonText = "Si",
+            CancelButtonText = "No"
+        });
+
+        if (result.HasValue && result.Value)
+        {
+
+            var response = await ProposalService.DeleteAsync(proposal.Proposal.ProposalId);
+
+            if (response.IsSuccess)
+            {
+                NavigationManager.NavigateTo("CallForSpeakers");
+            }
+            else
+                ShowNotification("Error Eliminar Charla", response);
+
+        }
+    }
+
+    void ShowNotification(string title, OperationResult result)
+    {
+        NotificationService.Notify(new NotificationMessage
+        {
+            Severity = NotificationSeverity.Error,
+            Summary = title,
+            Detail =
+        result.Error?.Code,
+            Duration = 4000
+        });
     }
 }
