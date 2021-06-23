@@ -1,0 +1,35 @@
+<RadzenDataList PageSize="2" WrapItems="true" AllowPaging="true" Data="@Speakers" TItem="Speaker">
+                        <Template Context="speaker">
+                            <RadzenCard Style="width:400px;">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div>Nombre:</div>
+                                        <b>@(speaker.Name + " " + speaker.LastName)</b>
+                                        <div style="margin-top:20px">Email:</div>
+                                        <b>@(speaker.Email)</b>
+                                        <br />
+                                        <RadzenImage Path="@speaker.Image.ToString()" Style="width:100px;" />
+                                    </div>
+                                    <div class="col-md-6">
+                                    @if(!string.IsNullOrWhiteSpace(speaker.Twitter))
+                                    {
+                                        <div>Twitter:</div>
+        
+                                        <RadzenLink Path="@("https://twitter.com/" + @speaker.Twitter)" Text="@speaker.Twitter" target="_blank"/>
+                                    }
+
+                                        <div style="margin-top:20px">Descripción:</div>
+                                        <b>@(speaker.Description)</b>
+                                    </div>
+                                </div>
+
+                            </RadzenCard>
+                        </Template>
+                    </RadzenDataList>
+
+
+
+@code{
+    [Parameter]
+    public IEnumerable<Speaker> Speakers { get; set; }
+}

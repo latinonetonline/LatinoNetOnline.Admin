@@ -1,0 +1,32 @@
+<RadzenCard Style="width:800px;">
+    <div class="row">
+        @* <div class="col-md-12">
+            <div>¿Para quien es esta charla?</div>
+            <b></b>
+            <div style="margin-top:20px"></div>
+            <b>@(Proposal.KnowledgeAnswer)</b>
+            <br />
+            <div style="margin-top:20px"></div>
+            <b>@(Proposal.UseCaseAnswer)</b>
+        </div> *@
+         <RadzenAccordion Multiple="true" >
+            <Items>
+                <RadzenAccordionItem Text="¿Para quien es esta charla?" Icon="accessibility">
+                    @(Proposal.AudienceAnswer)
+                </RadzenAccordionItem>
+                <RadzenAccordionItem style="margin-top:20px" Text="¿Que podre hacer con este nuevo conocimiento?" Icon="build">
+                   @(Proposal.KnowledgeAnswer)
+                </RadzenAccordionItem>
+                <RadzenAccordionItem style="margin-top:20px" Text="¿Te animas a contarnos un caso de uso?" Icon="widgets">
+                    @(Proposal.UseCaseAnswer)
+                </RadzenAccordionItem>
+            </Items>
+        </RadzenAccordion>
+    </div>
+
+</RadzenCard>
+
+@code {
+    [Parameter]
+    public Proposal Proposal { get; set; }
+}

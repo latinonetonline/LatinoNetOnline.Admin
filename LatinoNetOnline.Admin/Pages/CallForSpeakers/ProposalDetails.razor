@@ -1,4 +1,5 @@
 @page "/callforspeakers/{Id:guid}"
+@using LatinoNetOnline.Admin.Pages.CallForSpeakers.Components
 @inject IProposalService ProposalService
 
 @if (loading)
@@ -12,12 +13,15 @@ else
     <RadzenTabs  style="height: 880px" RenderMode="TabRenderMode.Client">
             <Tabs>
                 <RadzenTabsItem Text="Speakers">
+                    <SpeakerTab Speakers="proposal.Speakers" />
                 </RadzenTabsItem>
 
                 <RadzenTabsItem Text="Charla">
+                    <ProposalTab Proposal="proposal.Proposal" />
                 </RadzenTabsItem>
 
                 <RadzenTabsItem Text="Preguntas">
+                    <QuestionTab Proposal="proposal.Proposal" />
                 </RadzenTabsItem>
 
             </Tabs>

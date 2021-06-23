@@ -1,0 +1,19 @@
+<RadzenCard Style="width:800px;">
+    <div class="row">
+        <div class="col-md-12">
+            <div>Titulo:</div>
+            <b>@(Proposal.Title)</b>
+            <div style="margin-top:20px">Descripción:</div>
+            <b>@(Proposal.Description)</b>
+            <br />
+            <div style="margin-top:20px">Fecha:</div>
+            <b>@(Proposal.EventDate.ToLongDateString())</b>
+        </div>
+    </div>
+
+</RadzenCard>
+
+@code {
+    [Parameter]
+    public Proposal Proposal { get; set; }
+}
