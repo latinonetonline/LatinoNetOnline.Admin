@@ -1,0 +1,35 @@
+﻿@inject DialogService DialogService
+@inject IMeetupService MeetupService
+
+
+<h3>Seleccione el Meetup:</h3>
+
+@if (meetups is null)
+{
+    <RadzenProgressBar Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" Style="margin-bottom: 20px" />
+}
+else
+{
+    <div class="row">
+
+        @foreach (var item in meetups)
+        {
+            <div class="col-4">
+                <RadzenImage class="meetup" Path="@item.Featured_Photo.Highres_Link" Style="width:200px" />
+            </div>
+        }
+    </div>
+}
+
+
+
+@code {
+
+    IList<MeetupEvent> meetups;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var meetupsResult = await MeetupService.GetEventsAsync();
+        meetups = meetupsResult.Result;
+    }
+}
