@@ -1,11 +1,12 @@
-/* /Pages/CallForSpeakers/Components/DialogProposalConfirm.razor.rz.scp.css */
-.meetup[b-keowjokxo7] {
+/* /Pages/CallForSpeakers/Components/MeetupImage.razor.rz.scp.css */
+.meetup[b-jmdqiyhk2k] {
     -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
     filter: grayscale(100%);
     cursor: pointer;
+    width: 200px;
 }
 
-    .meetup:hover[b-keowjokxo7] {
+    .meetup:hover[b-jmdqiyhk2k] {
         -webkit-filter: none; /* Safari 6.0 - 9.0 */
         filter: none;
     }
