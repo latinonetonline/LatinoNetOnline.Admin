@@ -15,7 +15,7 @@ else
         @foreach (var item in meetups)
         {
             <div class="col-4">
-                <RadzenImage class="meetup" Path="@item.Featured_Photo.Highres_Link" Style="width:200px" />
+                <MeetupImage Photo="item.Featured_Photo" OnClick="args => MeetupOnClick(item)"/>
             </div>
         }
     </div>
@@ -31,5 +31,10 @@ else
     {
         var meetupsResult = await MeetupService.GetEventsAsync();
         meetups = meetupsResult.Result;
+    }
+
+    void MeetupOnClick(MeetupEvent meetup)
+    {
+        DialogService.Close(meetup);
     }
 }

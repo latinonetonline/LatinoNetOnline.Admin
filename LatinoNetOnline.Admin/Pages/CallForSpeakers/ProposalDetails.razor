@@ -2,6 +2,8 @@
 @attribute [Authorize(Roles = "Admin")]
 @using LatinoNetOnline.Admin.Pages.CallForSpeakers.Components
 @inject IProposalService ProposalService
+@inject IWebinarService WebinarService
+@inject IJSRuntime JSRuntime
 @inject NotificationService NotificationService
 @inject DialogService DialogService
 @inject NavigationManager NavigationManager
@@ -12,29 +14,32 @@
 }
 else
 {
-    <h1>@proposal.Proposal.Title</h1>
+    <h1>@proposal.Title</h1>
 
     <RadzenTabs style="max-height: 600px" RenderMode="TabRenderMode.Client">
         <Tabs>
             <RadzenTabsItem Text="Speakers">
-                <SpeakerTab Speakers="proposal.Speakers" />
+                <SpeakerTab Speakers="speakers" />
             </RadzenTabsItem>
 
             <RadzenTabsItem Text="Charla">
-                <ProposalTab Proposal="proposal.Proposal" />
+                <ProposalTab Proposal="proposal" />
             </RadzenTabsItem>
 
             <RadzenTabsItem Text="Preguntas">
-                <QuestionTab Proposal="proposal.Proposal" />
+                <QuestionTab Proposal="proposal" />
             </RadzenTabsItem>
 
         </Tabs>
 
     </RadzenTabs>
     <div class="row">
+        @if (!hasWebinar)
+        {
+            <RadzenButton Size="ButtonSize.Medium" ButtonStyle="ButtonStyle.Success" Text="Confirmar" Icon="verified" Click="args => ConfirmProposal()" />
+            <RadzenButton Size="ButtonSize.Medium" Text="Editar" Icon="edit" />
+        }
 
-        <RadzenButton Size="ButtonSize.Medium" ButtonStyle="ButtonStyle.Success" Text="Confirmar" Icon="verified" Click="args => ConfirmProposal()"/>
-        <RadzenButton Size="ButtonSize.Medium" Text="Editar" Icon="edit" />
         <RadzenButton Size="ButtonSize.Medium" ButtonStyle="ButtonStyle.Danger" Text="Eliminar" Icon="close" Click="args => Delete()" />
     </div>
 }
@@ -44,15 +49,28 @@ else
     [Parameter]
     public Guid Id { get; set; }
 
-    ProposalFull proposal;
+    Proposal proposal;
+    IEnumerable<Speaker> speakers;
     bool loading = true;
+    bool hasWebinar = false;
 
     protected override async Task OnInitializedAsync()
     {
 
-        var proposalResult = await ProposalService.GetByIdAsync(Id);
-        proposal = proposalResult.Result;
+        var webinarResult = await WebinarService.GetByProposalAsync(Id);
 
+        if (webinarResult.IsSuccess)
+        {
+            proposal = webinarResult.Result.Proposal;
+            speakers = webinarResult.Result.Speakers;
+            hasWebinar = true;
+        }
+        else
+        {
+            var proposalResult = await ProposalService.GetByIdAsync(Id);
+            proposal = proposalResult.Result.Proposal;
+            speakers = proposalResult.Result.Speakers;
+        }
 
         loading = false;
     }
@@ -68,7 +86,7 @@ else
         if (result.HasValue && result.Value)
         {
 
-            var response = await ProposalService.DeleteAsync(proposal.Proposal.ProposalId);
+            var response = await ProposalService.DeleteAsync(proposal.ProposalId);
 
             if (response.IsSuccess)
             {
@@ -86,14 +104,19 @@ else
         {
             Severity = NotificationSeverity.Error,
             Summary = title,
-            Detail =
-        result.Error?.Code,
+            Detail = result.Error?.Code,
             Duration = 4000
         });
     }
 
     async Task ConfirmProposal()
     {
-        await DialogService.OpenAsync<DialogProposalConfirm>("hola");
+        var meetup = await DialogService.OpenAsync<DialogProposalConfirm>("Confirmar Webinar");
+
+        var result = await WebinarService.CreateAsync(new(Id, meetup.Id));
+
+        await JSRuntime.InvokeAsync<object>("open", "https://www.meetup.com/es-ES/latino-net-online/events/" + result.Result.MeetupId, "_blank");
+
+        NavigationManager.NavigateTo("CallForSpeakers");
     }
 }

@@ -51,6 +51,7 @@ namespace LatinoNetOnline.Admin
             builder.Services.AddScoped<IDeviceService, DeviceService>();
             builder.Services.AddScoped<IProposalService, ProposalService>();
             builder.Services.AddScoped<IMeetupService, MeetupService>();
+            builder.Services.AddScoped<IWebinarService, WebinarService>();
 
             builder.Services.AddScoped<IApiClient, ApiClient>();
 

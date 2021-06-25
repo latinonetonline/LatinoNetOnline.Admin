@@ -1,0 +1,10 @@
+﻿
+<img src="@Photo.Highres_Link" class="meetup" @onclick="OnClick"/>
+
+@code {
+    [Parameter]
+    public MeetupPhoto Photo { get; set; }
+
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnClick { get; set; }
+}
