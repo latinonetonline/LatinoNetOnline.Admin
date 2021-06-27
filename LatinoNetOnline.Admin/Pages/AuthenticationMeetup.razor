@@ -15,7 +15,7 @@
 		
 		string hashParams = uri.Substring(indexHash + 1);
 
-        if (QueryHelpers.ParseQuery(hashParams).TryGetValue("meetup_access_token", out var token))
+        if (QueryHelpers.ParseQuery(hashParams).TryGetValue("access_token", out var token))
         {
             localStorage.SetItem("meetup_access_token", token);
 
