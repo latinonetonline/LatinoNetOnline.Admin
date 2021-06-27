@@ -5,6 +5,7 @@ using LatinoNetOnline.Admin.Models.Meetups;
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace LatinoNetOnline.Admin.Services
@@ -36,7 +37,7 @@ namespace LatinoNetOnline.Admin.Services
 
         public async Task<MeetupUser> GetSelfAsync()
         {
-            var token = _localStorageService.GetItemAsString("meetup_access_token");
+            var token = _localStorageService.GetItem<string[]>("meetup_access_token").FirstOrDefault();
             var user = await _graphQLService.ExceuteQueryAsync<MeetupUser>(GraphQLEndpoint, "self", "query { self { id name } }", token);
 
             return user;
