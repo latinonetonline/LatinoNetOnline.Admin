@@ -57,7 +57,6 @@ namespace LatinoNetOnline.Admin
             builder.Services.AddScoped<IWebinarService, WebinarService>();
 
             builder.Services.AddScoped<IApiClient, ApiClient>();
-            builder.Services.AddScoped<IGraphQLService, GraphQLService>();
 
             builder.Services.AddBlazoredLocalStorage(config =>
             {

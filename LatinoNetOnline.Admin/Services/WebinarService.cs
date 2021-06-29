@@ -15,7 +15,7 @@ namespace LatinoNetOnline.Admin.Services
     public class WebinarService : IWebinarService
     {
 
-        const string URL = "api/v1/callforspeakers-module/webinars";
+        const string URL = "api/v1/events-module/webinars";
 
         private readonly IApiClient _apiClient;
 

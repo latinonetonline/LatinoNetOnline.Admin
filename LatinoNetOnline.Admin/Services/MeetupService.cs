@@ -13,38 +13,24 @@ namespace LatinoNetOnline.Admin.Services
     interface IMeetupService
     {
         Task<OperationResult<IList<MeetupEvent>>> GetEventsAsync();
-        Task<MeetupUser> GetSelfAsync();
+
     }
 
     public class MeetupService : IMeetupService
     {
-        const string URL = "api/v1/callforspeakers-module/meetup/GetEvents";
-        private readonly Uri GraphQLEndpoint = new Uri("https://api.meetup.com/gql");
+        const string URL = "api/v1/events-module/meetup/GetEvents";
 
         private readonly IApiClient _apiClient;
-        private readonly IGraphQLService _graphQLService;
         private readonly ISyncLocalStorageService _localStorageService;
 
-        public MeetupService(IApiClient apiClient, ISyncLocalStorageService localStorageService, IGraphQLService graphQLService)
+        public MeetupService(IApiClient apiClient, ISyncLocalStorageService localStorageService)
         {
             _apiClient = apiClient;
-            _graphQLService = graphQLService;
             _localStorageService = localStorageService;
         }
 
         public Task<OperationResult<IList<MeetupEvent>>> GetEventsAsync()
             => _apiClient.GetAsync<OperationResult<IList<MeetupEvent>>>(URL);
-
-        public async Task<MeetupUser> GetSelfAsync()
-        {
-            var token = _localStorageService.GetItem<string[]>("meetup_access_token").FirstOrDefault();
-            var user = await _graphQLService.ExceuteQueryAsync<MeetupUser>(GraphQLEndpoint, "self", "query { self { id name } }", token);
-
-            return user;
-        }
-
-
-
 
 
     }

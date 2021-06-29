@@ -56,20 +56,15 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        var proposalResult = await ProposalService.GetByIdAsync(Id);
+        proposal = proposalResult.Result.Proposal;
+        speakers = proposalResult.Result.Speakers;
 
         var webinarResult = await WebinarService.GetByProposalAsync(Id);
 
         if (webinarResult.IsSuccess)
         {
-            proposal = webinarResult.Result.Proposal;
-            speakers = webinarResult.Result.Speakers;
             hasWebinar = true;
-        }
-        else
-        {
-            var proposalResult = await ProposalService.GetByIdAsync(Id);
-            proposal = proposalResult.Result.Proposal;
-            speakers = proposalResult.Result.Speakers;
         }
 
         loading = false;
