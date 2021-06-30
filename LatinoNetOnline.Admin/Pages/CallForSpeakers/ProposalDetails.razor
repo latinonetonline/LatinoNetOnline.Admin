@@ -37,7 +37,7 @@ else
         @if (!hasWebinar)
         {
             <RadzenButton Size="ButtonSize.Medium" ButtonStyle="ButtonStyle.Success" Text="Confirmar" Icon="verified" Click="args => ConfirmProposal()" />
-            <RadzenButton Size="ButtonSize.Medium" Text="Editar" Icon="edit" />
+            <RadzenButton Size="ButtonSize.Medium" Text="Editar" Icon="edit" Click="args => Edit()" />
         }
 
         <RadzenButton Size="ButtonSize.Medium" ButtonStyle="ButtonStyle.Danger" Text="Eliminar" Icon="close" Click="args => Delete()" />
@@ -113,5 +113,10 @@ else
         await JSRuntime.InvokeAsync<object>("open", "https://www.meetup.com/es-ES/latino-net-online/events/" + result.Result.MeetupId, "_blank");
 
         NavigationManager.NavigateTo("CallForSpeakers");
+    }
+
+    void Edit()
+    {
+        NavigationManager.NavigateTo($"CallForSpeakers/{Id}/Edit");
     }
 }

@@ -1,0 +1,187 @@
+﻿@page "/callforspeakers/{Id:guid}/Edit"
+@inject IProposalService ProposalService
+
+<h3>Editar Propuesta</h3>
+
+@if (proposal is null)
+{
+    <RadzenProgressBar Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" Style="margin-bottom: 20px" />
+}
+else
+{
+    <RadzenTemplateForm @ref="form" Data="@proposal" Submit="@((ProposalFull args) => { Submit(args); })" InvalidSubmit="@((args) => { InvalidSubmit(); })">
+        <RadzenTabs SelectedIndex="0">
+            <Tabs>
+                @foreach (var speaker in proposal.Speakers)
+                    {
+            <RadzenTabsItem Text="@(speaker.Name + " " + speaker.LastName)">
+
+                <div class="row">
+                    @if (proposal.Speakers.Count() > 1)
+                    {
+                        <RadzenButton Text="Quitar Speaker" Click=@(args => RemoveSpeaker(speaker)) Icon="delete" Style="margin-bottom: 20px; width: 300px" />
+                    }
+                </div>
+                <div class="row">
+                    <div class="col-md-3 align-items-center d-flex">
+                        <RadzenLabel Text="Nombre" />
+                    </div>
+                    <div class="col-md-8">
+                        <RadzenTextBox @bind-Value="speaker.Name" Placeholder="Nombre" style="width: 100%;" Name=@(speaker.SpeakerId + "Nombre") />
+                        <RadzenRequiredValidator Component=@(speaker.SpeakerId + "Nombre") Text="Ingrese un nombre" Popup=true Style="position: absolute;" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 align-items-center d-flex">
+                        <RadzenLabel Text="Apellido" />
+                    </div>
+                    <div class="col-md-8">
+                        <RadzenTextBox @bind-Value="speaker.LastName" Placeholder="Apellido" style="width: 100%;" Name=@(speaker.SpeakerId + "Apellido") />
+                        <RadzenRequiredValidator Component=@(speaker.SpeakerId + "Apellido") Text="Ingrese un apellido" Popup=true Style="position: absolute;" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 align-items-center d-flex">
+                        <RadzenLabel Text="Email" />
+                    </div>
+                    <div class="col-md-8">
+                        <RadzenTextBox @bind-Value="speaker.Email" Placeholder="Email" style="width: 100%;display: block;" Name=@(speaker.SpeakerId + "Email") />
+                        <RadzenEmailValidator Component=@(speaker.SpeakerId + "Email") Text="Provide a valid email address" Popup=true Style="position: absolute;" />
+                        <RadzenRequiredValidator Component=@(speaker.SpeakerId + "Email") Text="Email is required" Popup=true Style="position: absolute;" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 align-items-center d-flex">
+                        <RadzenLabel Text="Descripción" />
+                    </div>
+                    <div class="col-md-8">
+                        <RadzenTextArea @bind-Value="speaker.Description" Placeholder="Descripción" style="width: 100%;" Name=@(speaker.SpeakerId + "Descripción") />
+                        <RadzenRequiredValidator Component=@(speaker.SpeakerId + "Descripción") Text="Ingrese una descripción" Popup=true Style="position: absolute;" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 align-items-center d-flex">
+                        <RadzenLabel Text="Twitter" />
+                    </div>
+                    <div class="col-md-8">
+                        <RadzenTextBox @bind-Value="speaker.Twitter" Placeholder="Twitter" style="width: 100%;" Name="Twitter" />
+                    </div>
+                </div>
+            </RadzenTabsItem>
+            }
+            @if(proposal.Speakers.Count() == 1)
+            {
+                <RadzenButton Click=@(args => AddSpeaker()) Icon="add" Style="width: 80px" />
+            }
+
+        </Tabs>
+    </RadzenTabs>
+
+    <RadzenFieldset Text="Charla">
+        <div class="row">
+            <div class="col-md-3 align-items-center d-flex">
+                <RadzenLabel Text="Título" />
+            </div>
+            <div class="col-md-8">
+                <RadzenTextBox @bind-Value="proposal.Proposal.Title" Placeholder="Titulo" style="width: 100%;" Name="Titulo" />
+                <RadzenRequiredValidator Component="Titulo" Text="Ingrese un título" Popup=true Style="position: absolute;" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 align-items-center d-flex">
+                <RadzenLabel Text="Descripción" />
+            </div>
+            <div class="col-md-8">
+                <RadzenTextArea @bind-Value="proposal.Proposal.Description" Placeholder="Descripción" style="width: 100%;" Name="CharlaDescripción" />
+                <RadzenRequiredValidator Component="CharlaDescripción" Text="Ingrese un título" Popup=true Style="position: absolute;" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 align-items-center d-flex">
+                <RadzenLabel Text="Fecha" />
+            </div>
+            <div class="col-md-8">
+                <RadzenDatePicker @bind-Value="proposal.Proposal.EventDate" DateFormat="d" />
+            </div>
+        </div>
+    </RadzenFieldset>
+
+    <RadzenFieldset Text="Preguntas">
+        <div class="row">
+            <div class="col-md-3 align-items-center d-flex">
+                <RadzenLabel Text="¿Para quien es esta charla?" />
+            </div>
+            <div class="col-md-8">
+                <RadzenTextArea @bind-Value="proposal.Proposal.AudienceAnswer" style="width: 100%;" Name="AudienceAnswer" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 align-items-center d-flex">
+                <RadzenLabel Text="¿Que podre hacer con este nuevo conociemiento?" />
+            </div>
+            <div class="col-md-8">
+                <RadzenTextArea @bind-Value="proposal.Proposal.KnowledgeAnswer" style="width: 100%;" Name="KnowledgeAnswer" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 align-items-center d-flex">
+                <RadzenLabel Text="¿Te animas a contarnos un caso de uso?" />
+            </div>
+            <div class="col-md-8">
+                <RadzenTextArea @bind-Value="proposal.Proposal.UseCaseAnswer" style="width: 100%;" Name="UseCaseAnswer" />
+            </div>
+        </div>
+    </RadzenFieldset>
+
+
+    <div class="row justify-content-center">
+        <div class="col-md-12 d-flex align-items-end justify-content-center" style="margin-top: 16px;">
+            <RadzenButton ButtonType="ButtonType.Submit" Icon="save" Text="Save" />
+            <RadzenButton ButtonStyle="ButtonStyle.Light" Icon="cancel" style="display: inline-block; margin-left: 10px;" Text="Cancel" Click="@Cancel" />
+        </div>
+    </div>
+</RadzenTemplateForm>
+}
+
+
+
+@code {
+    [Parameter]
+    public Guid Id { get; set; }
+
+
+    ProposalFull proposal;
+
+    RadzenTemplateForm<ProposalFull> form;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var result = await ProposalService.GetByIdAsync(Id);
+        proposal = result.Result;
+    }
+
+    void Submit(ProposalFull arg)
+    {
+        //
+    }
+
+    void InvalidSubmit()
+    {
+        //
+    }
+
+    void Cancel()
+    {
+        //
+    }
+
+    void RemoveSpeaker(Speaker speaker)
+    {
+        proposal.Speakers = proposal.Speakers.Where(x => x.SpeakerId != speaker.SpeakerId);
+    }
+
+    void AddSpeaker()
+    {
+        proposal.Speakers = proposal.Speakers.Append(new());
+    }
+}
