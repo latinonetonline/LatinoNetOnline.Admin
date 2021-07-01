@@ -1,15 +1,17 @@
 ﻿@page "/callforspeakers/{Id:guid}/Edit"
 @inject IProposalService ProposalService
+@inject NavigationManager NavigationManager
+@inject NotificationService NotificationService
 
 <h3>Editar Propuesta</h3>
 
-@if (proposal is null)
+@if (loading)
 {
     <RadzenProgressBar Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" Style="margin-bottom: 20px" />
 }
 else
 {
-    <RadzenTemplateForm @ref="form" Data="@proposal" Submit="@((ProposalFull args) => { Submit(args); })" InvalidSubmit="@((args) => { InvalidSubmit(); })">
+    <RadzenTemplateForm @ref="form" Data="@proposal" Submit="@(async (ProposalFull args) => { await Submit(args); })" InvalidSubmit="@((args) => { InvalidSubmit(); })">
         <RadzenTabs SelectedIndex="0">
             <Tabs>
                 @foreach (var speaker in proposal.Speakers)
@@ -68,10 +70,6 @@ else
                     </div>
                 </div>
             </RadzenTabsItem>
-            }
-            @if(proposal.Speakers.Count() == 1)
-            {
-                <RadzenButton Click=@(args => AddSpeaker()) Icon="add" Style="width: 80px" />
             }
 
         </Tabs>
@@ -149,6 +147,8 @@ else
     [Parameter]
     public Guid Id { get; set; }
 
+        
+    bool loading = true;
 
     ProposalFull proposal;
 
@@ -158,11 +158,32 @@ else
     {
         var result = await ProposalService.GetByIdAsync(Id);
         proposal = result.Result;
+
+        loading = false;
     }
 
-    void Submit(ProposalFull arg)
+    async Task Submit(ProposalFull arg)
     {
-        //
+
+        loading = true;
+
+        IEnumerable<UpdateSpeakerInput> speakers = proposal.Speakers.Select(x => new UpdateSpeakerInput(x.SpeakerId, x.Name, x.LastName, x.Email, x.Twitter, x.Description));
+
+        UpdateProposalInput proposalInput = new(proposal.Proposal.ProposalId, proposal.Proposal.Title, proposal.Proposal.Description, proposal.Proposal.EventDate, proposal.Proposal.AudienceAnswer, proposal.Proposal.KnowledgeAnswer, proposal.Proposal.UseCaseAnswer, speakers);
+
+        var result = await ProposalService.UpdateAsync(proposalInput);
+
+        if (result.IsSuccess)
+        {
+            NavigationManager.NavigateTo($"/CallForSpeakers/{Id}/");
+        }
+        else
+        {
+            ShowNotification("Error Modificar Charla", result);
+        }
+
+        loading = false;
+
     }
 
     void InvalidSubmit()
@@ -172,7 +193,7 @@ else
 
     void Cancel()
     {
-        //
+        NavigationManager.NavigateTo($"/CallForSpeakers/{Id}/");
     }
 
     void RemoveSpeaker(Speaker speaker)
@@ -180,8 +201,8 @@ else
         proposal.Speakers = proposal.Speakers.Where(x => x.SpeakerId != speaker.SpeakerId);
     }
 
-    void AddSpeaker()
+    void ShowNotification(string title, OperationResult result)
     {
-        proposal.Speakers = proposal.Speakers.Append(new());
+        NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = title, Detail = result.Error?.Code, Duration = 4000 });
     }
 }

@@ -14,6 +14,7 @@ namespace LatinoNetOnline.Admin.Services
         Task<OperationResult<IList<ProposalFull>>> GetAllAsync(ProposalFilter filter);
         Task<OperationResult<ProposalFull>> GetByIdAsync(Guid id);
         Task<OperationResult> DeleteAsync(Guid id);
+        Task<OperationResult<ProposalFull>> UpdateAsync(UpdateProposalInput input);
     }
 
 
@@ -38,5 +39,8 @@ namespace LatinoNetOnline.Admin.Services
 
         public Task<OperationResult> DeleteAsync(Guid id)
             => _apiClient.DeleteAsync<OperationResult>(URL + "/" + id.ToString());
+
+        public Task<OperationResult<ProposalFull>> UpdateAsync(UpdateProposalInput input)
+            => _apiClient.PutAsync<UpdateProposalInput, OperationResult<ProposalFull>>(URL, input);
     }
 }
