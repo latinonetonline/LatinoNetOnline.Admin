@@ -38,7 +38,7 @@
       "Radzen.Blazor.dll": "sha256-NaKbNsby9L1aUFxFWTYMiJx9C25KBhPdvdS37c4kygU=",
       "System.IO.Pipelines.dll": "sha256-qZYTUS+ga7CydtH54fYPbehFCvx3B49I74G8dxreTog=",
       "System.Linq.Dynamic.Core.dll": "sha256-1FY4njT4yBDGDmit0dChl3nkd8sDwvqj4rl9RhKoJBQ=",
-      "LatinoNetOnline.Admin.dll": "sha256-DpTQJeMZww5Lwz5Wub44UZuaaoyAO9yGgCMPLtUbpCM=",
+      "LatinoNetOnline.Admin.dll": "sha256-CO4ZX3ng06ygiO8CfHX7Dxab8HbV6bYj2E7ANx3miOU=",
       "Microsoft.CSharp.dll": "sha256-9v\/\/0spB1wgrUq9DGohrD11cVLwMkXQBTnfDwjA9Ox4=",
       "System.Collections.Concurrent.dll": "sha256-FnxyCi5lB3hsrwK\/\/tIusi\/Fiw+RVWpCZe7BY1do0M4=",
       "System.Collections.Immutable.dll": "sha256-FGyl6SlBEmJ6bcgPuPFkrX5TMbbCHEyRB2nhQmd0h78=",
@@ -73,7 +73,7 @@
       "System.Text.Json.dll": "sha256-fUeeGA7RfGe6j83xssWtRXhcFJlYHT1H9Z4nmQoQSxE=",
       "System.Text.RegularExpressions.dll": "sha256-r2PMpHg5Kj9Co2J+9Uas9TeWEDCZ5OD5ChXRF\/lwk4I=",
       "System.Web.HttpUtility.dll": "sha256-Y0obxbxqsjwerqzksbj0KS9rl8t5asBtrxrX\/cXAxG4=",
-      "System.Private.CoreLib.dll": "sha256-ChIsWDafNXlgGNY0QYFJkJcTtJ1w2gkG4YeZQRCUItY="
+      "System.Private.CoreLib.dll": "sha256-MabAQ6pWRLsL4rZUa4DqlhmmGslmh2UL\/QZRDrubCcU="
     },
     "lazyAssembly": null,
     "pdb": null,
