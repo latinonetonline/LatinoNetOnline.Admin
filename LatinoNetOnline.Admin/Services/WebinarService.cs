@@ -2,6 +2,7 @@
 using LatinoNetOnline.Admin.Models.Webinars;
 
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ namespace LatinoNetOnline.Admin.Services
 {
     public interface IWebinarService
     {
+        Task<OperationResult<IList<Webinar>>> GetAsync();
         Task<OperationResult<Webinar>> CreateAsync(CreateWebinarInput input);
         Task<OperationResult<Webinar>> ConfirmAsync(ConfirmWebinarInput input);
         Task<OperationResult<Webinar>> GetByProposalAsync(Guid proposalId);
@@ -47,6 +49,9 @@ namespace LatinoNetOnline.Admin.Services
 
         public Task<OperationResult<Webinar>> CreateAsync(CreateWebinarInput input)
             => _apiClient.PostAsync<CreateWebinarInput, OperationResult<Webinar>>(URL, input);
+
+        public Task<OperationResult<IList<Webinar>>> GetAsync()
+            => _apiClient.GetAsync<OperationResult<IList<Webinar>>>(URL);
 
         public Task<OperationResult<Webinar>> GetByProposalAsync(Guid proposalId)
             => _apiClient.GetAsync<OperationResult<Webinar>>(URL + "/Proposals/" + proposalId.ToString());

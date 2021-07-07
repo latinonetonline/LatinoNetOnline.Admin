@@ -1,0 +1,82 @@
+﻿@inject IMeetupService MeetupService
+@inject NavigationManager NavigationManager
+
+<RadzenCard Style="width:600px; margin-bottom: 20px; height:400px;">
+    <div class="row">
+        <div class="col-md-6">
+            <div>Título:</div>
+            <h3>@meetupEvent?.Name</h3>
+
+            <br />
+            <RadzenImage Path="@Webinar.Flyer" Style="width:200px;" />
+        </div>
+        <div class="col-md-6">
+            <div>Numero:</div>
+            <h1>@Webinar.Number</h1>
+            <div style="margin-top:20px">Fecha:</div>
+            <h3>@Webinar.StartDateTime.ToLongDateString()</h3>
+
+            <div style="margin-top:20px">
+
+                <a href="@meetupEvent?.Link.ToString()" target="_blank">Meetup</a>
+                @if (!string.IsNullOrWhiteSpace(Webinar.LiveStreaming))
+                {
+                    <a style="margin-left:20px" href="@Webinar.LiveStreaming" target="_blank">Youtube</a>
+                }
+                @if (!string.IsNullOrWhiteSpace(Webinar.Streamyard))
+                {
+                    <a style="margin-left:20px" href="@Webinar.Streamyard" target="_blank">Streamyard</a>
+                }
+
+            </div>
+            <div style="margin-top:20px">Estado:</div>
+            <b>@Webinar.Status.ToString()</b>
+        </div>
+    </div>
+    <div class="row">
+        @if (Webinar is not null && Webinar.Status == WebinarStatus.Draft)
+        {
+            <RadzenButton Size="ButtonSize.Medium" ButtonStyle="ButtonStyle.Success" Text="Confirmar" Icon="verified" Click="args => ConfirmProposal()" Disabled="!CanConfirm(Webinar)"/>
+        }
+        <RadzenButton Size="ButtonSize.Medium" Text="Editar" Icon="edit" Click="args => Edit()" />
+    </div>
+</RadzenCard>
+
+
+
+@code {
+    [Parameter]
+    public Webinar Webinar { get; set; }
+
+    MeetupEvent meetupEvent;
+
+    bool loading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var result = await MeetupService.GetEventAsync(Webinar.MeetupId);
+
+        meetupEvent = result.Result;
+
+        loading = false;
+    }
+
+    void ConfirmProposal()
+    {
+        NavigationManager.NavigateTo($"CallForSpeakers/{Webinar.ProposalId}/Confirm");
+    }
+
+    void Edit()
+    {
+        NavigationManager.NavigateTo($"CallForSpeakers/{Webinar.ProposalId}/Edit");
+    }
+
+    bool CanConfirm(Webinar webinar)
+    {
+        return !string.IsNullOrWhiteSpace(Webinar.Flyer) &&
+         !string.IsNullOrWhiteSpace(Webinar.LiveStreaming) &&
+         !string.IsNullOrWhiteSpace(Webinar.Streamyard) &&
+         Webinar.Status == WebinarStatus.Draft &&
+         Webinar.StartDateTime >= DateTime.Now;
+    }
+}

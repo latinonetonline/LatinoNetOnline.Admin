@@ -20,10 +20,6 @@
 </AuthorizeView>
 
 
-<RadzenButton Click=@(args => OnClickMeetup()) Text="Meetup" Icon="account_circle" Style="width: 300px" />
-
-
-
 @code {
 
     void OnClick()
@@ -31,12 +27,5 @@
         NavigationManager.NavigateTo("authentication/login");
 
     }
-
-    void OnClickMeetup()
-    {
-        NavigationManager.NavigateTo("https://secure.meetup.com/es-ES/oauth2/authorize?response_type=token&redirect_uri=https%3A%2F%2Fadmin.latinonet.online%2Fmeetup%2Fauthentication&client_id=c2ovp69014iq4mtu4ii4o1mo0h", true);
-
-    }
-
 }
 

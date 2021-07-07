@@ -34,11 +34,10 @@ else
 
     </RadzenTabs>
     <div class="row">
-        @if (webinar is not null && webinar.Status == WebinarStatus.Draft)
+        @if (webinar is not null && webinar.Status != WebinarStatus.Old)
         {
-            <RadzenButton Size="ButtonSize.Medium" ButtonStyle="ButtonStyle.Success" Text="Confirmar" Icon="verified" Click="args => ConfirmProposal()" />
-        }
             <RadzenButton Size="ButtonSize.Medium" Text="Editar" Icon="edit" Click="args => Edit()" />
+        } 
 
         <RadzenButton Size="ButtonSize.Medium" ButtonStyle="ButtonStyle.Danger" Text="Eliminar" Icon="close" Click="args => Delete()" />
     </div>
@@ -104,11 +103,6 @@ else
             Detail = result.Error?.Code,
             Duration = 4000
         });
-    }
-
-    void ConfirmProposal()
-    {
-        NavigationManager.NavigateTo($"CallForSpeakers/{Id}/Confirm");
     }
 
     void Edit()

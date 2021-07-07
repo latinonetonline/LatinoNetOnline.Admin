@@ -13,24 +13,26 @@ namespace LatinoNetOnline.Admin.Services
     interface IMeetupService
     {
         Task<OperationResult<IList<MeetupEvent>>> GetEventsAsync();
+        Task<OperationResult<MeetupEvent>> GetEventAsync(long meetupId);
 
     }
 
     public class MeetupService : IMeetupService
     {
-        const string URL = "api/v1/events-module/meetup/GetEvents";
+        const string URL = "api/v1/events-module/meetup";
 
         private readonly IApiClient _apiClient;
-        private readonly ISyncLocalStorageService _localStorageService;
 
-        public MeetupService(IApiClient apiClient, ISyncLocalStorageService localStorageService)
+        public MeetupService(IApiClient apiClient)
         {
             _apiClient = apiClient;
-            _localStorageService = localStorageService;
         }
 
         public Task<OperationResult<IList<MeetupEvent>>> GetEventsAsync()
             => _apiClient.GetAsync<OperationResult<IList<MeetupEvent>>>(URL);
+
+        public Task<OperationResult<MeetupEvent>> GetEventAsync(long meetupId)
+            => _apiClient.GetAsync<OperationResult<MeetupEvent>>(URL + "/" + meetupId);
 
 
     }
