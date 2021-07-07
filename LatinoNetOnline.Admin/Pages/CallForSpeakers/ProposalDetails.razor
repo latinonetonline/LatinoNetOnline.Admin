@@ -34,11 +34,11 @@ else
 
     </RadzenTabs>
     <div class="row">
-        @if (!hasWebinar)
+        @if (webinar is not null && webinar.Status == WebinarStatus.Draft)
         {
             <RadzenButton Size="ButtonSize.Medium" ButtonStyle="ButtonStyle.Success" Text="Confirmar" Icon="verified" Click="args => ConfirmProposal()" />
-            <RadzenButton Size="ButtonSize.Medium" Text="Editar" Icon="edit" Click="args => Edit()" />
         }
+            <RadzenButton Size="ButtonSize.Medium" Text="Editar" Icon="edit" Click="args => Edit()" />
 
         <RadzenButton Size="ButtonSize.Medium" ButtonStyle="ButtonStyle.Danger" Text="Eliminar" Icon="close" Click="args => Delete()" />
     </div>
@@ -50,6 +50,7 @@ else
     public Guid Id { get; set; }
 
     Proposal proposal;
+    Webinar webinar;
     IEnumerable<Speaker> speakers;
     bool loading = true;
     bool hasWebinar = false;
@@ -65,6 +66,7 @@ else
         if (webinarResult.IsSuccess)
         {
             hasWebinar = true;
+            webinar = webinarResult.Result;
         }
 
         loading = false;
@@ -104,15 +106,9 @@ else
         });
     }
 
-    async Task ConfirmProposal()
+    void ConfirmProposal()
     {
-        var meetup = await DialogService.OpenAsync<DialogProposalConfirm>("Confirmar Webinar");
-
-        var result = await WebinarService.CreateAsync(new(Id, meetup.Id));
-
-        await JSRuntime.InvokeAsync<object>("open", "https://www.meetup.com/es-ES/latino-net-online/events/" + result.Result.MeetupId, "_blank");
-
-        NavigationManager.NavigateTo("CallForSpeakers");
+        NavigationManager.NavigateTo($"CallForSpeakers/{Id}/Confirm");
     }
 
     void Edit()

@@ -11,6 +11,8 @@ namespace LatinoNetOnline.Admin.Services
 {
     public interface IApiClient
     {
+        HttpClient HttpClient { get; }
+ 
         Task<TResponse> GetAsync<TResponse>(string requestUri) where TResponse : OperationResult;
         Task<TResponse> PostAsync<TRequest, TResponse>(string requestUri, TRequest requestBody) where TResponse : OperationResult;
         Task<TResponse> PutAsync<TRequest, TResponse>(string requestUri, TRequest requestBody) where TResponse : OperationResult;
@@ -20,36 +22,36 @@ namespace LatinoNetOnline.Admin.Services
 
     public class ApiClient : IApiClient
     {
-        private readonly HttpClient _httpClient;
+        public HttpClient HttpClient { get; }
 
         public ApiClient(HttpClient httpClient)
         {
-            _httpClient = httpClient;
+            HttpClient = httpClient;
         }
 
         public async Task<TResponse> GetAsync<TResponse>(string requestUri) where TResponse : OperationResult
         {
-            var httpResponse = await _httpClient.GetAsync(requestUri);
+            var httpResponse = await HttpClient.GetAsync(requestUri);
             return await httpResponse.Content.ReadFromJsonAsync<TResponse>();
         }
 
         public async Task<TResponse> PostAsync<TRequest, TResponse>(string requestUri, TRequest requestBody) where TResponse : OperationResult
         {
-            var httpResponse = await _httpClient.PostAsJsonAsync(requestUri, requestBody);
+            var httpResponse = await HttpClient.PostAsJsonAsync(requestUri, requestBody);
 
             return await httpResponse.Content.ReadFromJsonAsync<TResponse>();
         }
 
         public async Task<TResponse> PutAsync<TRequest, TResponse>(string requestUri, TRequest requestBody) where TResponse : OperationResult
         {
-            var httpResponse = await _httpClient.PutAsJsonAsync(requestUri, requestBody);
+            var httpResponse = await HttpClient.PutAsJsonAsync(requestUri, requestBody);
 
             return await httpResponse.Content.ReadFromJsonAsync<TResponse>();
         }
 
         public async Task<TResponse> DeleteAsync<TResponse>(string requestUri) where TResponse : OperationResult
         {
-            var httpResponse = await _httpClient.DeleteAsync(requestUri);
+            var httpResponse = await HttpClient.DeleteAsync(requestUri);
             return await httpResponse.Content.ReadFromJsonAsync<TResponse>();
         }
 
