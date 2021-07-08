@@ -34,10 +34,9 @@ else
 
     </RadzenTabs>
     <div class="row">
-        @if (webinar is not null && webinar.Status != WebinarStatus.Old)
-        {
-            <RadzenButton Size="ButtonSize.Medium" Text="Editar" Icon="edit" Click="args => Edit()" />
-        } 
+
+        <RadzenButton Size="ButtonSize.Medium" Text="Editar" Icon="edit" Click="args => Edit()" />
+
 
         <RadzenButton Size="ButtonSize.Medium" ButtonStyle="ButtonStyle.Danger" Text="Eliminar" Icon="close" Click="args => Delete()" />
     </div>

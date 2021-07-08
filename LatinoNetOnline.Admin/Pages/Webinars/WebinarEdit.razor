@@ -30,10 +30,10 @@ else
             <RadzenButton style="margin-top: 2rem" Size="ButtonSize.Medium" Icon="edit" Click="args => EditFlyer()" />
 
             <h3 style="margin-top: 2rem">Streamyard</h3>
-            <RadzenTextBox Style="width:400px" @bind-Value=@webinar.Streamyard Placeholder="https://streamyard.com/ca1zxyzis8" />
+            <RadzenTextBox Style="width:400px" @bind-Value=@webinar.Streamyard Placeholder="https://streamyard.com/xxxxxxx" />
 
             <h3 style="margin-top: 2rem">Youtube</h3>
-            <RadzenTextBox Style="width:400px" @bind-Value=@webinar.LiveStreaming Placeholder="https://www.youtube.com/watch?v=ss0Un7fa-Mw" />
+            <RadzenTextBox Style="width:400px" @bind-Value=@webinar.LiveStreaming Placeholder="https://www.youtube.com/watch?v=xxxxxxx" />
 
         </div>
     </div>
@@ -64,7 +64,11 @@ else
     {
         loading = true;
 
-        var result = await WebinarService.UpdateAsync(new(webinar.Id, webinar.Number, webinar.MeetupId, webinar.StartDateTime, new(webinar.Streamyard), new(webinar.LiveStreaming), new(webinar.Flyer), webinar.Status));
+        var result = await WebinarService.UpdateAsync(new(webinar.Id, webinar.Number, webinar.MeetupId, webinar.StartDateTime, 
+        string.IsNullOrWhiteSpace(webinar.Streamyard) ? null : new(webinar.Streamyard), 
+        string.IsNullOrWhiteSpace(webinar.LiveStreaming) ? null : new(webinar.LiveStreaming), 
+        string.IsNullOrWhiteSpace(webinar.Flyer) ? null : new(webinar.Flyer), 
+        webinar.Status));
 
         if (result.IsSuccess)
         {
