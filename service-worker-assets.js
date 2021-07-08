@@ -257,10 +257,6 @@
       "url": "_framework\/Microsoft.AspNetCore.Metadata.dll"
     },
     {
-      "hash": "sha256-pRDHYwFWhnLEUQlrN0xtEcU3roZBO+z2Vk4N2C4JcyI=",
-      "url": "_framework\/Microsoft.AspNetCore.WebUtilities.dll"
-    },
-    {
       "hash": "sha256-rXUfE+DfZ2X+Oi+NS+XNd0cC\/iOp8cUUOUBAkMHTMvE=",
       "url": "_framework\/Microsoft.Extensions.Configuration.dll"
     },
@@ -301,7 +297,7 @@
       "url": "_framework\/Microsoft.Extensions.Options.dll"
     },
     {
-      "hash": "sha256-PK2bWriGt0xhFECKazm\/zs3O02qjAYX5RMSUiJqKCP0=",
+      "hash": "sha256-OWoIWACQAupkFP2lqZCm40WA137ySVvsBEim8MOxTB0=",
       "url": "_framework\/Microsoft.Extensions.Primitives.dll"
     },
     {
@@ -329,7 +325,7 @@
       "url": "_framework\/System.Linq.Dynamic.Core.dll"
     },
     {
-      "hash": "sha256-qPSQJBPS7Ph0k7qYg4MCbito3s23ofeHDqyxn\/ljNsI=",
+      "hash": "sha256-RP4YB5qOZjlw2iv9L8qxqjly6+22Gjw3u\/kF31zC7NI=",
       "url": "_framework\/LatinoNetOnline.Admin.dll"
     },
     {
@@ -405,7 +401,7 @@
       "url": "_framework\/System.Net.Http.Json.dll"
     },
     {
-      "hash": "sha256-GcGLCWmmI8AOiUvNLuiVsip4K\/5JKCysvrKCCl8xQOY=",
+      "hash": "sha256-RlVIHgnH8ZYx+iPXsa+2Nu5DQG5QXac7WAjNILg+80k=",
       "url": "_framework\/System.Net.Http.dll"
     },
     {
@@ -473,7 +469,7 @@
       "url": "_framework\/System.Private.CoreLib.dll"
     },
     {
-      "hash": "sha256-JbDtlQLIB1ujDajSEB9kvg7RHfz2rnnuJiiDWda7S7M=",
+      "hash": "sha256-aTV+MwQpGwIKXifkiJ9\/xBcbUxcuvbGhDtEsfKOI8GE=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -481,5 +477,5 @@
       "url": "_framework\/blazor.webassembly.js"
     }
   ],
-  "version": "8O1W7aa\/"
+  "version": "\/YTDzIf+"
 };
