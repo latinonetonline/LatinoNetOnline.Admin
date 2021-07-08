@@ -1,4 +1,5 @@
 ﻿@inject IMeetupService MeetupService
+@inject IWebinarService WebinarService
 @inject NavigationManager NavigationManager
 
 <RadzenCard Style="width:600px; margin-bottom: 20px; height:400px;">
@@ -36,7 +37,7 @@
     <div class="row">
         @if (Webinar is not null && Webinar.Status == WebinarStatus.Draft)
         {
-            <RadzenButton Size="ButtonSize.Medium" ButtonStyle="ButtonStyle.Success" Text="Confirmar" Icon="verified" Click="args => ConfirmProposal()" Disabled="!CanConfirm(Webinar)"/>
+            <RadzenButton Size="ButtonSize.Medium" ButtonStyle="ButtonStyle.Success" Text="Confirmar" Icon="verified" Click="args => ConfirmWebinar()" Disabled="!CanConfirm(Webinar)" IsBusy="loading"/>
         }
         <RadzenButton Size="ButtonSize.Medium" Text="Editar" Icon="edit" Click="args => Edit()" />
     </div>
@@ -61,14 +62,19 @@
         loading = false;
     }
 
-    void ConfirmProposal()
+    async Task ConfirmWebinar()
     {
-        NavigationManager.NavigateTo($"CallForSpeakers/{Webinar.ProposalId}/Confirm");
+        loading = true;
+        var result = await WebinarService.ConfirmAsync(new(Webinar.Id));
+
+        Webinar = result.Result;
+
+        loading = false;
     }
 
     void Edit()
     {
-        NavigationManager.NavigateTo($"CallForSpeakers/{Webinar.ProposalId}/Edit");
+        NavigationManager.NavigateTo($"Webinars/{Webinar.Id}/Edit");
     }
 
     bool CanConfirm(Webinar webinar)

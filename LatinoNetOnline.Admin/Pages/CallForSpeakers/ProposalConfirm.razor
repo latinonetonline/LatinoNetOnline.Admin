@@ -60,7 +60,7 @@ else
 
         var webinarResult = await WebinarService.GetByProposalAsync(Id);
         webinar = webinarResult.Result;
-
+        imageBase64 = webinar.Flyer;
         loading = false;
     }
 
@@ -88,7 +88,7 @@ else
 
         loading = true;
 
-        var result = await WebinarService.ConfirmAsync(new(webinar.Id, new(webinar.Streamyard), new(webinar.LiveStreaming), stream));
+        var result = await WebinarService.ConfirmAsync(new(webinar.Id));
 
         if (result.IsSuccess)
         {

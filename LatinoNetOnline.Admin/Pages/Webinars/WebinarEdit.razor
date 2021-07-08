@@ -1,0 +1,100 @@
+﻿@page "/Webinars/{Id:guid}/Edit"
+@attribute [Authorize(Roles = "Admin")]
+@using LatinoNetOnline.Admin.Pages.Webinars.Components
+@using System.IO
+@using System.Text
+@inject IWebinarService WebinarService
+
+@inject NotificationService NotificationService
+@inject DialogService DialogService
+@inject NavigationManager NavigationManager
+
+@if (loading)
+{
+    <RadzenProgressBar Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" Style="margin-bottom: 20px" />
+}
+else
+{
+
+    <h3>Editar</h3>
+
+    <div class="row">
+        <div class="col-xl-6">
+
+            <h3 style="margin-top: 2rem">Numero</h3>
+            <RadzenNumeric TValue="int" @bind-Value=@webinar.Number />
+
+            <h3 style="margin-top: 2rem">Flyer</h3>
+
+            <img src="@imageBase64" width="400px" />
+            <RadzenButton style="margin-top: 2rem" Size="ButtonSize.Medium" Icon="edit" Click="args => EditFlyer()" />
+
+            <h3 style="margin-top: 2rem">Streamyard</h3>
+            <RadzenTextBox Style="width:400px" @bind-Value=@webinar.Streamyard Placeholder="https://streamyard.com/ca1zxyzis8" />
+
+            <h3 style="margin-top: 2rem">Youtube</h3>
+            <RadzenTextBox Style="width:400px" @bind-Value=@webinar.LiveStreaming Placeholder="https://www.youtube.com/watch?v=ss0Un7fa-Mw" />
+
+        </div>
+    </div>
+
+    <RadzenButton style="margin-top: 2rem" Size="ButtonSize.Medium" Text="Editar" Icon="edit" Click="args => Edit()" />
+}
+
+
+@code {
+    [Parameter]
+    public Guid Id { get; set; }
+
+    Webinar webinar;
+
+    bool loading = true;
+
+    string imageBase64 = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var webinarResult = await WebinarService.GetAsync(Id);
+        webinar = webinarResult.Result;
+        imageBase64 = webinar.Flyer;
+        loading = false;
+    }
+
+    async Task Edit()
+    {
+        loading = true;
+
+        var result = await WebinarService.UpdateAsync(new(webinar.Id, webinar.Number, webinar.MeetupId, webinar.StartDateTime, new(webinar.Streamyard), new(webinar.LiveStreaming), new(webinar.Flyer), webinar.Status));
+
+        if (result.IsSuccess)
+        {
+            NavigationManager.NavigateTo($"Webinars");
+        }
+        else
+        {
+            NotificationService.Notify(new NotificationMessage
+            {
+                Severity = NotificationSeverity.Error,
+                Summary = "Error Modificar Webinar",
+                Detail = result.Error?.Code,
+                Duration = 4000
+            });
+        }
+    }
+
+
+    async Task EditFlyer()
+    {
+
+        await DialogService.OpenAsync<EditFlyerDialog>("Cambiar Flyer", new Dictionary<string, object>()
+        {
+            {"Webinar", webinar}
+        });
+
+        var webinarResult = await WebinarService.GetAsync(Id);
+        webinar = webinarResult.Result;
+        imageBase64 = webinar.Flyer;
+        //StateHasChanged();
+
+    }
+}
