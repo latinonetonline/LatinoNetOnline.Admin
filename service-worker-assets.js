@@ -325,7 +325,7 @@
       "url": "_framework\/System.Linq.Dynamic.Core.dll"
     },
     {
-      "hash": "sha256-RP4YB5qOZjlw2iv9L8qxqjly6+22Gjw3u\/kF31zC7NI=",
+      "hash": "sha256-ZU+9ziHg4LfZjWEL6RCaiLkcs6gVBqAfIUzesJtHclo=",
       "url": "_framework\/LatinoNetOnline.Admin.dll"
     },
     {
@@ -469,7 +469,7 @@
       "url": "_framework\/System.Private.CoreLib.dll"
     },
     {
-      "hash": "sha256-aTV+MwQpGwIKXifkiJ9\/xBcbUxcuvbGhDtEsfKOI8GE=",
+      "hash": "sha256-lkI9+Skde0JmPd5klgdRNt4dVBcsb8vQQiPdopUfeyc=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -477,5 +477,5 @@
       "url": "_framework\/blazor.webassembly.js"
     }
   ],
-  "version": "\/YTDzIf+"
+  "version": "nmudrIGX"
 };
