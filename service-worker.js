@@ -81,4 +81,4 @@ function onMessage(event) {
     }
 }
 
-/* Manifest version: nmudrIGX */
+/* Manifest version: 8Ri78/0m */
