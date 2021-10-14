@@ -35,7 +35,7 @@
                 <b>@Webinar.Status.ToString()</b>
             </div>
             <div style="margin-top:20px">
-                 <a href="/CallForSpeakers/@Webinar.ProposalId">Ver Charla</a>
+                
             </div>
         </div>
     </div>
@@ -44,7 +44,7 @@
         {
             <RadzenButton Size="ButtonSize.Medium" ButtonStyle="ButtonStyle.Success" Text="Confirmar" Icon="verified" Click="args => ConfirmWebinar()" Disabled="!CanConfirm(Webinar)" IsBusy="loading" />
         }
-        <RadzenButton Size="ButtonSize.Medium" Text="Editar" Icon="edit" Click="args => Edit()" />
+        <WebinarMenu Webinar=Webinar />
     </div>
 </RadzenCard>
 
@@ -77,10 +77,7 @@
         loading = false;
     }
 
-    void Edit()
-    {
-        NavigationManager.NavigateTo($"Webinars/{Webinar.Id}/Edit");
-    }
+    
 
     bool CanConfirm(Webinar webinar)
     {

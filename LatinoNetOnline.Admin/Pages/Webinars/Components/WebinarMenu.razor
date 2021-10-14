@@ -1,0 +1,75 @@
+﻿@inject IMetricoolService MetricoolService
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject ContextMenuService ContextMenuService
+
+<RadzenButton Size="ButtonSize.Medium" Text="Editar" Icon="edit" Click="args => Edit()" ContextMenu=@(args => ShowContextMenuWithItems(args)) IsBusy="loading" />
+
+
+@code {
+    [Parameter]
+    public Webinar Webinar { get; set; }
+
+
+    bool loading = false;
+
+    async Task ExportMetricoolFileAsync()
+    {
+
+        var result = await MetricoolService.ExportFileByWebinarAsync(Webinar.Id);
+
+        byte[] file = System.Text.Encoding.UTF8.GetBytes(result.Result.Text);
+        await JSRuntime.InvokeVoidAsync("BlazorDownloadFile", result.Result.Filename, "text/plain", file);
+
+    }
+
+    bool CanExportMetricoolFile()
+    {
+        return !string.IsNullOrWhiteSpace(Webinar.Flyer) &&
+         !string.IsNullOrWhiteSpace(Webinar.LiveStreaming) &&
+         !string.IsNullOrWhiteSpace(Webinar.Streamyard) &&
+         Webinar.StartDateTime >= DateTime.Now;
+    }
+
+    void ShowContextMenuWithItems(MouseEventArgs args)
+    {
+
+        List<ContextMenuItem> menuItems = new();
+        menuItems.Add(new ContextMenuItem() { Text = "Ver Charla", Value = 1 });
+
+        if (CanExportMetricoolFile())
+        {
+            menuItems.Add(new ContextMenuItem() { Text = "Exportar Metricool CSV", Value = 2 });
+
+        }
+
+        ContextMenuService.Open(args, menuItems, OnMenuItemClick);
+    }
+
+
+    void OnMenuItemClick(MenuItemEventArgs args)
+    {
+        ContextMenuService.Close();
+        switch (args.Value)
+        {
+            case 1:
+                NavigationManager.NavigateTo($"/CallForSpeakers/" + @Webinar.ProposalId);
+                break;
+            case 2:
+                loading = true;
+                StateHasChanged();
+                ExportMetricoolFileAsync().ContinueWith((task) =>
+                {
+                    loading = false;
+                    StateHasChanged();
+                });
+                break;
+        }
+    }
+
+    void Edit()
+    {
+        NavigationManager.NavigateTo($"Webinars/{Webinar.Id}/Edit");
+    }
+
+}
