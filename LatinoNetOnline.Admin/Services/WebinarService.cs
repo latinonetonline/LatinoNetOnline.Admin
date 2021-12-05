@@ -18,6 +18,7 @@ namespace LatinoNetOnline.Admin.Services
         Task<OperationResult<Webinar>> UpdateAsync(UpdateWebinarInput input);
         Task<OperationResult<Webinar>> ConfirmAsync(ConfirmWebinarInput input);
         Task<OperationResult<Webinar>> ChangePhotoAsync(Guid id, Stream image);
+        Task<OperationResult> DeleteAsync(Guid id);
         Task<OperationResult<Webinar>> GetByProposalAsync(Guid proposalId);
     }
 
@@ -53,6 +54,9 @@ namespace LatinoNetOnline.Admin.Services
 
         public Task<OperationResult<Webinar>> CreateAsync(CreateWebinarInput input)
             => _apiClient.PostAsync<CreateWebinarInput, OperationResult<Webinar>>(URL, input);
+
+        public Task<OperationResult> DeleteAsync(Guid id)
+           => _apiClient.DeleteAsync<OperationResult>(URL + "/" + id.ToString());
 
         public Task<OperationResult<IList<Webinar>>> GetAsync()
             => _apiClient.GetAsync<OperationResult<IList<Webinar>>>(URL);

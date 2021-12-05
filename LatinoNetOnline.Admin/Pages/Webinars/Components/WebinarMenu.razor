@@ -1,4 +1,5 @@
 ﻿@inject IMetricoolService MetricoolService
+@inject IWebinarService WebinarService
 @inject IJSRuntime JSRuntime
 @inject NavigationManager NavigationManager
 @inject ContextMenuService ContextMenuService
@@ -43,6 +44,8 @@
 
         }
 
+        menuItems.Add(new ContextMenuItem() { Text = "Eliminar", Value = 3 });
+
         ContextMenuService.Open(args, menuItems, OnMenuItemClick);
     }
 
@@ -63,6 +66,16 @@
                     loading = false;
                     StateHasChanged();
                 });
+                break;
+
+            case 3:
+                loading = true;
+                StateHasChanged();
+                WebinarService.DeleteAsync(Webinar.Id).ContinueWith((task) =>
+                {
+                    loading = false;
+                    StateHasChanged();
+                }); ;
                 break;
         }
     }

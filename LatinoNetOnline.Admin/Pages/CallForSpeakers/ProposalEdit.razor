@@ -15,61 +15,61 @@ else
         <RadzenTabs SelectedIndex="0">
             <Tabs>
                 @foreach (var speaker in proposal.Speakers)
-                    {
-            <RadzenTabsItem Text="@(speaker.Name + " " + speaker.LastName)">
+            {
+                <RadzenTabsItem Text="@(speaker.Name + " " + speaker.LastName)">
 
-                <div class="row">
-                    @if (proposal.Speakers.Count() > 1)
-                    {
-                        <RadzenButton Text="Quitar Speaker" Click=@(args => RemoveSpeaker(speaker)) Icon="delete" Style="margin-bottom: 20px; width: 300px" />
-                    }
-                </div>
-                <div class="row">
-                    <div class="col-md-3 align-items-center d-flex">
-                        <RadzenLabel Text="Nombre" />
+                    <div class="row">
+                        @if (proposal.Speakers.Count() > 1)
+                        {
+                            <RadzenButton Text="Quitar Speaker" Click=@(args => RemoveSpeaker(speaker)) Icon="delete" Style="margin-bottom: 20px; width: 300px" />
+                        }
                     </div>
-                    <div class="col-md-8">
-                        <RadzenTextBox @bind-Value="speaker.Name" Placeholder="Nombre" style="width: 100%;" Name=@(speaker.SpeakerId + "Nombre") />
-                        <RadzenRequiredValidator Component=@(speaker.SpeakerId + "Nombre") Text="Ingrese un nombre" Popup=true Style="position: absolute;" />
+                    <div class="row">
+                        <div class="col-md-3 align-items-center d-flex">
+                            <RadzenLabel Text="Nombre" />
+                        </div>
+                        <div class="col-md-8">
+                            <RadzenTextBox @bind-Value="speaker.Name" Placeholder="Nombre" style="width: 100%;" Name=@(speaker.SpeakerId + "Nombre") />
+                            <RadzenRequiredValidator Component=@(speaker.SpeakerId + "Nombre") Text="Ingrese un nombre" Popup=true Style="position: absolute;" />
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3 align-items-center d-flex">
-                        <RadzenLabel Text="Apellido" />
+                    <div class="row">
+                        <div class="col-md-3 align-items-center d-flex">
+                            <RadzenLabel Text="Apellido" />
+                        </div>
+                        <div class="col-md-8">
+                            <RadzenTextBox @bind-Value="speaker.LastName" Placeholder="Apellido" style="width: 100%;" Name=@(speaker.SpeakerId + "Apellido") />
+                            <RadzenRequiredValidator Component=@(speaker.SpeakerId + "Apellido") Text="Ingrese un apellido" Popup=true Style="position: absolute;" />
+                        </div>
                     </div>
-                    <div class="col-md-8">
-                        <RadzenTextBox @bind-Value="speaker.LastName" Placeholder="Apellido" style="width: 100%;" Name=@(speaker.SpeakerId + "Apellido") />
-                        <RadzenRequiredValidator Component=@(speaker.SpeakerId + "Apellido") Text="Ingrese un apellido" Popup=true Style="position: absolute;" />
+                    <div class="row">
+                        <div class="col-md-3 align-items-center d-flex">
+                            <RadzenLabel Text="Email" />
+                        </div>
+                        <div class="col-md-8">
+                            <RadzenTextBox @bind-Value="speaker.Email" Placeholder="Email" style="width: 100%;display: block;" Name=@(speaker.SpeakerId + "Email") />
+                            <RadzenEmailValidator Component=@(speaker.SpeakerId + "Email") Text="Provide a valid email address" Popup=true Style="position: absolute;" />
+                            <RadzenRequiredValidator Component=@(speaker.SpeakerId + "Email") Text="Email is required" Popup=true Style="position: absolute;" />
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3 align-items-center d-flex">
-                        <RadzenLabel Text="Email" />
+                    <div class="row">
+                        <div class="col-md-3 align-items-center d-flex">
+                            <RadzenLabel Text="Descripción" />
+                        </div>
+                        <div class="col-md-8">
+                            <RadzenTextArea @bind-Value="speaker.Description" Placeholder="Descripción" style="width: 100%;" Name=@(speaker.SpeakerId + "Descripción") />
+                            <RadzenRequiredValidator Component=@(speaker.SpeakerId + "Descripción") Text="Ingrese una descripción" Popup=true Style="position: absolute;" />
+                        </div>
                     </div>
-                    <div class="col-md-8">
-                        <RadzenTextBox @bind-Value="speaker.Email" Placeholder="Email" style="width: 100%;display: block;" Name=@(speaker.SpeakerId + "Email") />
-                        <RadzenEmailValidator Component=@(speaker.SpeakerId + "Email") Text="Provide a valid email address" Popup=true Style="position: absolute;" />
-                        <RadzenRequiredValidator Component=@(speaker.SpeakerId + "Email") Text="Email is required" Popup=true Style="position: absolute;" />
+                    <div class="row">
+                        <div class="col-md-3 align-items-center d-flex">
+                            <RadzenLabel Text="Twitter" />
+                        </div>
+                        <div class="col-md-8">
+                            <RadzenTextBox @bind-Value="speaker.Twitter" Placeholder="Twitter" style="width: 100%;" Name="Twitter" />
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3 align-items-center d-flex">
-                        <RadzenLabel Text="Descripción" />
-                    </div>
-                    <div class="col-md-8">
-                        <RadzenTextArea @bind-Value="speaker.Description" Placeholder="Descripción" style="width: 100%;" Name=@(speaker.SpeakerId + "Descripción") />
-                        <RadzenRequiredValidator Component=@(speaker.SpeakerId + "Descripción") Text="Ingrese una descripción" Popup=true Style="position: absolute;" />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3 align-items-center d-flex">
-                        <RadzenLabel Text="Twitter" />
-                    </div>
-                    <div class="col-md-8">
-                        <RadzenTextBox @bind-Value="speaker.Twitter" Placeholder="Twitter" style="width: 100%;" Name="Twitter" />
-                    </div>
-                </div>
-            </RadzenTabsItem>
+                </RadzenTabsItem>
             }
 
         </Tabs>
@@ -134,8 +134,9 @@ else
 
     <div class="row justify-content-center">
         <div class="col-md-12 d-flex align-items-end justify-content-center" style="margin-top: 16px;">
-            <RadzenButton ButtonType="ButtonType.Submit" Icon="save" Text="Save" />
-            <RadzenButton ButtonStyle="ButtonStyle.Light" Icon="cancel" style="display: inline-block; margin-left: 10px;" Text="Cancel" Click="@Cancel" />
+            <RadzenButton ButtonType="ButtonType.Submit" Icon="save" Text="Guardar" />
+            <RadzenButton ButtonStyle="ButtonStyle.Danger" ButtonType="ButtonType.Button" Icon="remove" Text="Eliminar" Click="@Delete"/>
+            <RadzenButton ButtonStyle="ButtonStyle.Light" Icon="cancel" style="display: inline-block; margin-left: 10px;" Text="Cancelar" Click="@Cancel" />
         </div>
     </div>
 </RadzenTemplateForm>
@@ -147,7 +148,7 @@ else
     [Parameter]
     public Guid Id { get; set; }
 
-        
+
     bool loading = true;
 
     ProposalFull proposal;
@@ -195,6 +196,12 @@ else
     {
         NavigationManager.NavigateTo($"/CallForSpeakers/{Id}/");
     }
+
+    void Delete()
+    {
+        NavigationManager.NavigateTo($"/CallForSpeakers/{Id}/");
+    }
+
 
     void RemoveSpeaker(Speaker speaker)
     {
