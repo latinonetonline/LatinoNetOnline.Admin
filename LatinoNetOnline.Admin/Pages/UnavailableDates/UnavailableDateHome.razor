@@ -1,0 +1,160 @@
+﻿@page "/unavailabledates"
+@inject IUnavailableDateService Service
+@inject NotificationService NotificationService
+@inject DialogService DialogService
+
+<h1>Fechas no disponibles</h1>
+
+
+@if (loading)
+{
+	<RadzenProgressBar Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" Style="margin-bottom: 20px" />
+}
+
+<AuthorizeView Roles="Admin">
+ <RadzenButton Icon="add_circle_outline" style="margin-bottom: 10px" Text="Agregar" Click="@InsertRow" />
+</AuthorizeView>
+
+
+
+<RadzenDataGrid @ref="datesGrid" Data="@dates" TItem="UnavailableDate" AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Simple" PageSize="10" AllowPaging="true" AllowSorting="true" ColumnWidth="300px" EditMode="DataGridEditMode.Single" RowUpdate="@OnUpdateRow" RowCreate="@OnCreateRow">
+ <Columns>
+
+  <RadzenDataGridColumn TItem="UnavailableDate" Property="Reason" Title="Motivo" Width="150px">
+   <EditTemplate Context="date">
+	<RadzenTextBox @bind-Value="date.Reason" Style="width:100%; display: block" Name="Reason" />
+	<RadzenRequiredValidator Text="Ingrese un Nombre" Component="Reason" Popup="true" />
+   </EditTemplate>
+  </RadzenDataGridColumn>
+  <RadzenDataGridColumn TItem="UnavailableDate" Property="Date" Title="Fecha">
+   <EditTemplate Context="date">
+	<RadzenDatePicker @bind-Value="date.Date" Style="width:100%; display: block" Name="Date" DateFormat="d" />
+   </EditTemplate>
+  </RadzenDataGridColumn>
+
+  <AuthorizeView Roles="Admin">
+   <RadzenDataGridColumn TItem="UnavailableDate" Context="sampleBlazorModelsSampleOrder" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="100px">
+	<Template Context="date">
+	 <RadzenButton Icon="edit" Size="ButtonSize.Medium" Click="@(args => EditRow(date))" @onclick:stopPropagation="true">
+	 </RadzenButton>
+	</Template>
+	<EditTemplate Context="date">
+	 <RadzenButton Icon="save" Size="ButtonSize.Medium" Click="@((args) => SaveRow(date))">
+	 </RadzenButton>
+	 <RadzenButton Icon="cancel" Size="ButtonSize.Medium" ButtonStyle="ButtonStyle.Secondary" Click="@((args) => CancelEdit(date))">
+	 </RadzenButton>
+	</EditTemplate>
+   </RadzenDataGridColumn>
+   <RadzenDataGridColumn TItem="UnavailableDate" Context="date" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="70px">
+	<Template Context="date">
+	 <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Medium" Click="@(args => DeleteRow(date))" @onclick:stopPropagation="true">
+	 </RadzenButton>
+	</Template>
+	<EditTemplate Context="date">
+	 <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Medium" Click="@(args => DeleteRow(date))">
+	 </RadzenButton>
+	</EditTemplate>
+   </RadzenDataGridColumn>
+  </AuthorizeView>
+ </Columns>
+</RadzenDataGrid>
+
+@code {
+	private IList<UnavailableDate> dates;
+
+	RadzenDataGrid<UnavailableDate> datesGrid;
+
+	bool loading = true;
+
+
+	protected override async Task OnInitializedAsync()
+	{
+		var result = await Service.GetAllAsync();
+
+		dates = result.Result;
+		loading = false;
+	}
+
+	void EditRow(UnavailableDate date)
+	{
+		datesGrid.EditRow(date);
+	}
+
+
+	void SaveRow(UnavailableDate date)
+	{
+		datesGrid.UpdateRow(date);
+	}
+
+	void CancelEdit(UnavailableDate date)
+	{
+		datesGrid.CancelEditRow(date);
+	}
+
+	async Task OnUpdateRow(UnavailableDate date)
+	{
+		loading = true;
+
+		var response = await Service.UpdateAsync(date);
+
+		if (!response.IsSuccess)
+			ShowNotification("Error Modificar Fecha", response);
+
+		loading = false;
+	}
+
+	async Task DeleteRow(UnavailableDate date)
+	{
+		if (dates.Contains(date))
+		{
+
+			var result = await DialogService.Confirm($"¿Desea borrar la fecha {date.Date:dd-MM-yyyy}?", "Eliminar Fecha", new ConfirmOptions() { OkButtonText = "Si", CancelButtonText = "No" });
+
+			if (result.HasValue && result.Value)
+			{
+				loading = true;
+				StateHasChanged();
+
+				var response = await Service.DeleteAsync(date.Id);
+
+				if (response.IsSuccess)
+				{
+					dates.Remove(date);
+
+					datesGrid.Reload();
+				}
+				else
+					ShowNotification("Error Eliminar Link", response);
+
+				loading = false;
+				StateHasChanged();
+			}
+		}
+		else
+			datesGrid.CancelEditRow(date);
+
+	}
+
+	void InsertRow()
+	{
+		datesGrid.InsertRow(new UnavailableDate());
+	}
+
+	async Task OnCreateRow(UnavailableDate date)
+	{
+		loading = true;
+
+		var response = await Service.CreateAsync(new(date.Date, date.Reason));
+
+		if (!response.IsSuccess)
+			ShowNotification("Error Crear Fecha", response);
+
+		loading = false;
+	}
+
+	void ShowNotification(string title, OperationResult result)
+	{
+		NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = title, Detail = result.Error?.Code, Duration = 4000 });
+	}
+
+}
