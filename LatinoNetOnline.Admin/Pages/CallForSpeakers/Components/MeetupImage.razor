@@ -1,10 +1,13 @@
 ﻿
-<img src="@Photo.Highres_Link" class="meetup" @onclick="OnClick"/>
+<img src="@GetImageUrl()" class="meetup" @onclick="OnClick"/>
 
 @code {
     [Parameter]
-    public MeetupPhoto Photo { get; set; }
+    public Image Image { get; set; }
 
     [Parameter]
     public EventCallback<MouseEventArgs> OnClick { get; set; }
+
+
+    string GetImageUrl() => @"https://secure-content.meetupstatic.com/images/classic-events/{Image.Id}/676x380.jpg";
 }
