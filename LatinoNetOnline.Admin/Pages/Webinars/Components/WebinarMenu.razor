@@ -26,7 +26,7 @@
 
     bool CanExportMetricoolFile()
     {
-        return !string.IsNullOrWhiteSpace(Webinar.Flyer) &&
+        return
          !string.IsNullOrWhiteSpace(Webinar.LiveStreaming) &&
          !string.IsNullOrWhiteSpace(Webinar.Streamyard) &&
          Webinar.StartDateTime >= DateTime.Now;
