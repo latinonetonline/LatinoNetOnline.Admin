@@ -3,7 +3,8 @@
 @using System.Text
 @inject DialogService DialogService
 
-<RadzenCard Style="width:800px;">
+<RadzenCard Style="width:100%;">
+    <h2>Webinar NRO: @(Proposal.WebinarNumber.GetValueOrDefault()) </h2>
     <div class="row">
         <div class="col-md-12">
             <div>Meetup Link:</div>
@@ -12,12 +13,21 @@
             <a href=@(Proposal.Streamyard) target="_blank"><b>@(Proposal.Streamyard)</b></a>
             <div style="margin-top:20px">Youtube:</div>
             <a href=@(Proposal.LiveStreaming) target="_blank"><b>@(Proposal.LiveStreaming)</b></a>
+            <div style="margin-top:20px">Estado:</div>
+            <b>@(Proposal.Status.ToString())</b>
             <br />
 
 
             <img src="@imageBase64" width="400px" />
             <RadzenButton style="margin-top: 2rem" Size="ButtonSize.Medium" Icon="edit" Click="args => EditFlyer()" />
         </div>
+    </div>
+    <br />
+     <div class="row">
+         @if (Proposal is not null)
+        {
+            <RadzenButton Size="ButtonSize.Medium" ButtonStyle="ButtonStyle.Success" Text="Confirmar" Icon="verified" Click="args => ConfirmWebinar()" Disabled="!CanConfirm()" IsBusy="loading" />
+        }
     </div>
 
 </RadzenCard>
@@ -26,6 +36,7 @@
     [Parameter]
     public Proposal Proposal { get; set; }
 
+    bool loading = false;
 
     string imageBase64 = null;
 
@@ -47,5 +58,26 @@
         imageBase64 = Proposal.Flyer;
         StateHasChanged();
 
+    }
+
+    async Task ConfirmWebinar()
+    {
+        loading = true;
+        var result = await Service.ConfirmAsync(new(Proposal.ProposalId));
+
+        Proposal = result.Result;
+
+        loading = false;
+    }
+
+    
+
+    bool CanConfirm()
+    {
+        return !string.IsNullOrWhiteSpace(Proposal.Flyer) &&
+         !string.IsNullOrWhiteSpace(Proposal.LiveStreaming) &&
+         !string.IsNullOrWhiteSpace(Proposal.Streamyard) &&
+         Proposal.Status == ProposalStatus.Created &&
+         Proposal.EventDate >= DateTime.Now;
     }
 }

@@ -12,6 +12,8 @@ namespace LatinoNetOnline.Admin.Models.Proposals
         public string AudienceAnswer { get; set; }
         public string KnowledgeAnswer { get; set; }
         public string UseCaseAnswer { get; set; }
+        public int? WebinarNumber { get; set; }
+        public ProposalStatus Status { get; set; }
         public string Meetup { get; set; }
         public string Streamyard { get; set; }
         public string LiveStreaming { get; set; }

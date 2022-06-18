@@ -8,6 +8,7 @@ using System;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Json;
+using LatinoNetOnline.Admin.Models.Webinars;
 
 namespace LatinoNetOnline.Admin.Services
 {
@@ -19,6 +20,7 @@ namespace LatinoNetOnline.Admin.Services
         Task<OperationResult> DeleteAsync(Guid id);
         Task<OperationResult<ProposalFull>> UpdateAsync(UpdateProposalInput input);
         Task<OperationResult<Proposal>> ChangePhotoAsync(Guid id, Stream image);
+        Task<OperationResult<Proposal>> ConfirmAsync(ConfirmWebinarInput input);
 
     }
 
@@ -62,5 +64,9 @@ namespace LatinoNetOnline.Admin.Services
 
             return await response.Content.ReadFromJsonAsync<OperationResult<Proposal>>();
         }
+
+        public Task<OperationResult<Proposal>> ConfirmAsync(ConfirmWebinarInput input)
+           => _apiClient.PostAsync<ConfirmWebinarInput, OperationResult<Proposal>>(URL + "/Confirm", input);
+
     }
 }

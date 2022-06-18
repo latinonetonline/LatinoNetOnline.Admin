@@ -131,7 +131,18 @@ else
         </div>
     </RadzenFieldset>
 
-     <RadzenFieldset Text="Links">
+     <RadzenFieldset Text="Webinar">
+
+         
+
+        <div class="row">
+            <div class="col-md-3 align-items-center d-flex">
+                <RadzenLabel Text="Webinar Numero" />
+            </div>
+            <div class="col-md-8">
+                <RadzenNumeric TValue="int?" style="width: 100%;" @bind-Value=@proposal.Proposal.WebinarNumber />
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-3 align-items-center d-flex">
                 <RadzenLabel Text="Streamyard" />
@@ -205,7 +216,7 @@ else
 
         IEnumerable<UpdateSpeakerInput> speakers = proposal.Speakers.Select(x => new UpdateSpeakerInput(x.SpeakerId, x.Name, x.LastName, x.Email, x.Twitter, x.Description));
 
-        UpdateProposalInput proposalInput = new(proposal.Proposal.ProposalId, proposal.Proposal.Title, proposal.Proposal.Description, proposal.Proposal.EventDate, proposal.Proposal.AudienceAnswer, proposal.Proposal.KnowledgeAnswer, proposal.Proposal.UseCaseAnswer, proposal.Proposal.Meetup, proposal.Proposal.Streamyard, proposal.Proposal.LiveStreaming, proposal.Proposal.Flyer, speakers);
+        UpdateProposalInput proposalInput = new(proposal.Proposal.ProposalId, proposal.Proposal.Title, proposal.Proposal.Description, proposal.Proposal.EventDate, proposal.Proposal.AudienceAnswer, proposal.Proposal.KnowledgeAnswer, proposal.Proposal.UseCaseAnswer, proposal.Proposal.WebinarNumber, proposal.Proposal.Meetup, proposal.Proposal.Streamyard, proposal.Proposal.LiveStreaming, proposal.Proposal.Flyer, speakers);
 
         var result = await ProposalService.UpdateAsync(proposalInput);
 
