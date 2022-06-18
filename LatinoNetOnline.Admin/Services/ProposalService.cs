@@ -5,6 +5,9 @@ using LatinoNetOnline.Admin.Models.Proposals;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System;
+using System.IO;
+using System.Net.Http;
+using System.Net.Http.Json;
 
 namespace LatinoNetOnline.Admin.Services
 {
@@ -15,6 +18,8 @@ namespace LatinoNetOnline.Admin.Services
         Task<OperationResult<ProposalFull>> GetByIdAsync(Guid id);
         Task<OperationResult> DeleteAsync(Guid id);
         Task<OperationResult<ProposalFull>> UpdateAsync(UpdateProposalInput input);
+        Task<OperationResult<Proposal>> ChangePhotoAsync(Guid id, Stream image);
+
     }
 
 
@@ -42,5 +47,20 @@ namespace LatinoNetOnline.Admin.Services
 
         public Task<OperationResult<ProposalFull>> UpdateAsync(UpdateProposalInput input)
             => _apiClient.PutAsync<UpdateProposalInput, OperationResult<ProposalFull>>(URL, input);
+
+        public async Task<OperationResult<Proposal>> ChangePhotoAsync(Guid id, Stream image)
+        {
+            var formData = new MultipartFormDataContent();
+            formData.Add(new StreamContent(image), "file", "file");
+
+            var request = new HttpRequestMessage(HttpMethod.Post, URL + "/" + id.ToString() + "/Photo")
+            {
+                Content = formData
+            };
+
+            var response = await _apiClient.HttpClient.SendAsync(request);
+
+            return await response.Content.ReadFromJsonAsync<OperationResult<Proposal>>();
+        }
     }
 }

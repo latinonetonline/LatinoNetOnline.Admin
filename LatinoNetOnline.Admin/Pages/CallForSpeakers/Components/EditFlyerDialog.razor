@@ -1,0 +1,70 @@
+﻿@using System.IO
+@using System.Text
+@inject DialogService DialogService
+@inject NotificationService NotificationService
+@inject IProposalService Service
+
+
+<InputFile OnChange="@LoadFiles" />
+<img src="@imageBase64" width="200px" />
+
+
+<RadzenButton style="margin-top: 2rem" Size="ButtonSize.Medium" Text="Aceptar" Icon="edit" Click="args => Edit()" IsBusy="loading"/>
+
+@code {
+    [Parameter]
+    public Proposal Proposal { get; set; }
+
+    string imageBase64 = null;
+    MemoryStream image = null;
+
+
+    bool loading = false;
+
+
+    protected override void OnInitialized()
+    {
+        imageBase64 = Proposal.Flyer;
+    }
+
+    private async Task LoadFiles(InputFileChangeEventArgs e)
+    {
+        foreach (var file in e.GetMultipleFiles())
+        {
+            var memoryStream = new MemoryStream();
+
+            await file.OpenReadStream().CopyToAsync(memoryStream);
+
+            this.image = memoryStream;
+
+            string base64 = Convert.ToBase64String(memoryStream.ToArray());
+
+            imageBase64 = string.Format("data:image/png;base64,{0}", base64);
+        }
+    }
+
+
+    async Task Edit()
+    {
+        loading = true;
+        MemoryStream stream = new MemoryStream(image.ToArray());
+        stream.Seek(0, SeekOrigin.Begin);
+
+        var result = await Service.ChangePhotoAsync(Proposal.ProposalId, stream);
+
+        if (result.IsSuccess)
+        {
+            DialogService.Close();
+        }
+        else
+        {
+            NotificationService.Notify(new NotificationMessage
+            {
+                Severity = NotificationSeverity.Error,
+                Summary = "Error Modificar Flyer",
+                Detail = result.Error?.Code,
+                Duration = 4000
+            });
+        }
+    }
+}

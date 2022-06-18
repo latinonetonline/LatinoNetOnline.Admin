@@ -1,0 +1,51 @@
+﻿@inject IProposalService Service
+@using System.IO
+@using System.Text
+@inject DialogService DialogService
+
+<RadzenCard Style="width:800px;">
+    <div class="row">
+        <div class="col-md-12">
+            <div>Meetup Link:</div>
+            <a href=@(Proposal.Meetup) target="_blank"><b>@(Proposal.Meetup)</b></a>
+            <div style="margin-top:20px">Streamyard:</div>
+            <a href=@(Proposal.Streamyard) target="_blank"><b>@(Proposal.Streamyard)</b></a>
+            <div style="margin-top:20px">Youtube:</div>
+            <a href=@(Proposal.LiveStreaming) target="_blank"><b>@(Proposal.LiveStreaming)</b></a>
+            <br />
+
+
+            <img src="@imageBase64" width="400px" />
+            <RadzenButton style="margin-top: 2rem" Size="ButtonSize.Medium" Icon="edit" Click="args => EditFlyer()" />
+        </div>
+    </div>
+
+</RadzenCard>
+
+@code {
+    [Parameter]
+    public Proposal Proposal { get; set; }
+
+
+    string imageBase64 = null;
+
+    protected override void OnInitialized()
+    {
+        imageBase64 = Proposal.Flyer;
+    }
+
+    async Task EditFlyer()
+    {
+
+        await DialogService.OpenAsync<EditFlyerDialog>("Cambiar Flyer", new Dictionary<string, object>()
+        {
+            {"Proposal", Proposal}
+        });
+
+        var proposalResult = await Service.GetByIdAsync(Proposal.ProposalId);
+        Proposal = proposalResult.Result.Proposal;
+        imageBase64 = Proposal.Flyer;
+        StateHasChanged();
+
+    }
+}
