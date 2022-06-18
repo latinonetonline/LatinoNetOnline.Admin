@@ -13,7 +13,7 @@ namespace LatinoNetOnline.Admin.Services
 
     public class MetricoolService : IMetricoolService
     {
-        const string URL = "api/v1/events-module/metricool";
+        const string URL = "api/v1/callforspeakers-module/metricool";
 
         private readonly IApiClient _apiClient;
 
@@ -22,7 +22,7 @@ namespace LatinoNetOnline.Admin.Services
             _apiClient = apiClient;
         }
 
-        public Task<OperationResult<MetricoolExportFileDto>> ExportFileByWebinarAsync(Guid webinarId)
-           => _apiClient.GetAsync<OperationResult<MetricoolExportFileDto>>(URL + "/Webinars/" + webinarId.ToString());
+        public Task<OperationResult<MetricoolExportFileDto>> ExportFileByWebinarAsync(Guid proposalId)
+           => _apiClient.GetAsync<OperationResult<MetricoolExportFileDto>>(URL + "/Proposals/" + proposalId.ToString());
     }
 }

@@ -1,4 +1,7 @@
 ﻿@inject IProposalService Service
+@inject IMetricoolService MetricoolService
+@inject IWebinarService WebinarService
+@inject IJSRuntime JSRuntime
 @using System.IO
 @using System.Text
 @inject DialogService DialogService
@@ -23,10 +26,12 @@
         </div>
     </div>
     <br />
-     <div class="row">
-         @if (Proposal is not null)
+    <div class="row">
+        @if (Proposal is not null)
         {
             <RadzenButton Size="ButtonSize.Medium" ButtonStyle="ButtonStyle.Success" Text="Confirmar" Icon="verified" Click="args => ConfirmWebinar()" Disabled="!CanConfirm()" IsBusy="loading" />
+            <RadzenButton Size="ButtonSize.Medium" ButtonStyle="ButtonStyle.Primary" Text="Descargar Metricool" Icon="verified" Click="args => ExportMetricoolFileAsync()" IsBusy="loading" />
+
         }
     </div>
 
@@ -70,7 +75,7 @@
         loading = false;
     }
 
-    
+
 
     bool CanConfirm()
     {
@@ -79,5 +84,24 @@
          !string.IsNullOrWhiteSpace(Proposal.Streamyard) &&
          Proposal.Status == ProposalStatus.Created &&
          Proposal.EventDate >= DateTime.Now;
+    }
+
+    async Task ExportMetricoolFileAsync()
+    {
+        loading = true;
+        var result = await MetricoolService.ExportFileByWebinarAsync(Proposal.ProposalId);
+
+        byte[] file = System.Text.Encoding.UTF8.GetBytes(result.Result.Text);
+        var fileStream = new MemoryStream(file);
+
+        var fileName = result.Result.Filename;
+
+        using var streamRef = new DotNetStreamReference(stream: fileStream);
+
+        await JSRuntime.InvokeVoidAsync("downloadFileFromStream", fileName, streamRef);
+
+        loading = false;
+
+
     }
 }
