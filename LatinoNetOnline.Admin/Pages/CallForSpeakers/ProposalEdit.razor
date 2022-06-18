@@ -131,6 +131,41 @@ else
         </div>
     </RadzenFieldset>
 
+     <RadzenFieldset Text="Links">
+        <div class="row">
+            <div class="col-md-3 align-items-center d-flex">
+                <RadzenLabel Text="Streamyard" />
+            </div>
+            <div class="col-md-8">
+                <RadzenTextBox @bind-Value="proposal.Proposal.Streamyard"  Placeholder="Link para invitar al Streamyard" style="width: 100%;" Name="Streamyard" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 align-items-center d-flex">
+                <RadzenLabel Text="Youtube" />
+            </div>
+            <div class="col-md-8">
+                <RadzenTextBox @bind-Value="proposal.Proposal.LiveStreaming" Placeholder="Link de la transmisión en Youtube" style="width: 100%;" Name="LiveStreaming" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 align-items-center d-flex">
+                <RadzenLabel Text="Meetup" />
+            </div>
+            <div class="col-md-8">
+                <RadzenTextBox @bind-Value="proposal.Proposal.Meetup" Placeholder="Link del evento en Meetup" style="width: 100%;" Name="LiveStreaming" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 align-items-center d-flex">
+                <RadzenLabel Text="Flyer" />
+            </div>
+            <div class="col-md-8">
+                <RadzenTextBox @bind-Value="proposal.Proposal.Flyer" Placeholder="Link del Flyer" style="width: 100%;" Name="Flyer" />
+            </div>
+        </div>
+    </RadzenFieldset>
+
 
     <div class="row justify-content-center">
         <div class="col-md-12 d-flex align-items-end justify-content-center" style="margin-top: 16px;">
@@ -170,7 +205,7 @@ else
 
         IEnumerable<UpdateSpeakerInput> speakers = proposal.Speakers.Select(x => new UpdateSpeakerInput(x.SpeakerId, x.Name, x.LastName, x.Email, x.Twitter, x.Description));
 
-        UpdateProposalInput proposalInput = new(proposal.Proposal.ProposalId, proposal.Proposal.Title, proposal.Proposal.Description, proposal.Proposal.EventDate, proposal.Proposal.AudienceAnswer, proposal.Proposal.KnowledgeAnswer, proposal.Proposal.UseCaseAnswer, speakers);
+        UpdateProposalInput proposalInput = new(proposal.Proposal.ProposalId, proposal.Proposal.Title, proposal.Proposal.Description, proposal.Proposal.EventDate, proposal.Proposal.AudienceAnswer, proposal.Proposal.KnowledgeAnswer, proposal.Proposal.UseCaseAnswer, proposal.Proposal.Meetup, proposal.Proposal.Streamyard, proposal.Proposal.LiveStreaming, proposal.Proposal.Flyer, speakers);
 
         var result = await ProposalService.UpdateAsync(proposalInput);
 
