@@ -61,7 +61,7 @@
       "url": "index.html"
     },
     {
-      "hash": "sha256-WCr438pZM9qqknXT09CfmRrXGt4kXhnR6gdMoq+GvKM=",
+      "hash": "sha256-NBQO6FHFnuteMvcHBXkZP6fz+x9fcbyMI8GgwKhtjGc=",
       "url": "js\/main.js"
     },
     {
@@ -105,7 +105,7 @@
       "url": "_framework\/icudt.dat"
     },
     {
-      "hash": "sha256-wE00w+OE4DPRCI96jDgUU9pmMZjpVdLEDc1S8tiTOQI=",
+      "hash": "sha256-Z252txryfezRiJXeHxKmnRjfO+28QokLzu4gdspVMU0=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -113,7 +113,7 @@
       "url": "_framework\/Blazored.LocalStorage.dll"
     },
     {
-      "hash": "sha256-FJwyEtJPR6lX9iDL9Xgc1PZdAisMj1bNsl1JLfpfUUM=",
+      "hash": "sha256-nJJdr61egGbYBs2bvusHK7e91dWS00DPLTu+ZUeVeIg=",
       "url": "_framework\/LatinoNetOnline.Admin.dll"
     },
     {
@@ -201,7 +201,7 @@
       "url": "_framework\/Microsoft.Extensions.Primitives.dll"
     },
     {
-      "hash": "sha256-fTnA1hOtoiufHmUXO8tGJsSR51eESLDOEgwBF7STPwk=",
+      "hash": "sha256-cRhlurKB5KiQ4GQud5hvH6WXByvdhL2QSqttELvIXfU=",
       "url": "_framework\/Microsoft.JSInterop.dll"
     },
     {
@@ -501,5 +501,5 @@
       "url": "_content\/Radzen.Blazor\/Radzen.Blazor.js"
     }
   ],
-  "version": "c3m600bo"
+  "version": "1vwLGmP6"
 };
