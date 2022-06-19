@@ -21,6 +21,8 @@ namespace LatinoNetOnline.Admin.Services
         Task<OperationResult<ProposalFull>> UpdateAsync(UpdateProposalInput input);
         Task<OperationResult<Proposal>> ChangePhotoAsync(Guid id, Stream image);
         Task<OperationResult<Proposal>> ConfirmAsync(ConfirmWebinarInput input);
+        Task<OperationResult<ProposalDescriptionText>> GetDescriptionTextAsync(Guid id);
+
 
     }
 
@@ -68,5 +70,7 @@ namespace LatinoNetOnline.Admin.Services
         public Task<OperationResult<Proposal>> ConfirmAsync(ConfirmWebinarInput input)
            => _apiClient.PostAsync<ConfirmWebinarInput, OperationResult<Proposal>>(URL + "/Confirm", input);
 
+        public Task<OperationResult<ProposalDescriptionText>> GetDescriptionTextAsync(Guid id)
+            => _apiClient.GetAsync<OperationResult<ProposalDescriptionText>>(URL + "/" + id.ToString() + "/Description");
     }
 }

@@ -31,6 +31,7 @@
         {
             <RadzenButton Size="ButtonSize.Medium" ButtonStyle="ButtonStyle.Success" Text="Confirmar" Icon="verified" Click="args => ConfirmWebinar()" Disabled="!CanConfirm()" IsBusy="loading" />
             <RadzenButton Size="ButtonSize.Medium" ButtonStyle="ButtonStyle.Primary" Text="Descargar Metricool" Icon="verified" Click="args => ExportMetricoolFileAsync()" IsBusy="loading" />
+            <RadzenButton Size="ButtonSize.Medium" ButtonStyle="ButtonStyle.Primary" Text="Ver Descripción Completa" Icon="verified" Click="args => ShowMeetupText()" IsBusy="loading" />
 
         }
     </div>
@@ -101,6 +102,22 @@
         await JSRuntime.InvokeVoidAsync("downloadFileFromStream", fileName, streamRef);
 
         loading = false;
+
+
+    }
+
+    async Task ShowMeetupText()
+    {
+        loading = true;
+
+        var result = await Service.GetDescriptionTextAsync(Proposal.ProposalId);
+
+        loading = false;
+
+        await DialogService.OpenAsync<ShowProposalDescriptionDialog>("Descripción de la propuesta", new Dictionary<string, object>()
+        {
+            {"Text", result.Result.Text}
+        });
 
 
     }
