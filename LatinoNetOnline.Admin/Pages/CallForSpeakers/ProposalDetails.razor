@@ -2,7 +2,6 @@
 @attribute [Authorize(Roles = "Admin")]
 @using LatinoNetOnline.Admin.Pages.CallForSpeakers.Components
 @inject IProposalService ProposalService
-@inject IWebinarService WebinarService
 @inject NotificationService NotificationService
 @inject DialogService DialogService
 @inject NavigationManager NavigationManager
@@ -51,24 +50,14 @@ else
     public Guid Id { get; set; }
 
     Proposal proposal;
-    Webinar webinar;
     IEnumerable<Speaker> speakers;
     bool loading = true;
-    bool hasWebinar = false;
 
     protected override async Task OnInitializedAsync()
     {
         var proposalResult = await ProposalService.GetByIdAsync(Id);
         proposal = proposalResult.Result.Proposal;
         speakers = proposalResult.Result.Speakers;
-
-        var webinarResult = await WebinarService.GetByProposalAsync(Id);
-
-        if (webinarResult.IsSuccess)
-        {
-            hasWebinar = true;
-            webinar = webinarResult.Result;
-        }
 
         loading = false;
     }
