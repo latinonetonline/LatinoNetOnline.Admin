@@ -105,7 +105,7 @@
       "url": "_framework\/icudt.dat"
     },
     {
-      "hash": "sha256-Z252txryfezRiJXeHxKmnRjfO+28QokLzu4gdspVMU0=",
+      "hash": "sha256-nAlA0iKn6SFEefKhtoAbjxoCorIGfjoSfl28XPn0nmA=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -113,7 +113,7 @@
       "url": "_framework\/Blazored.LocalStorage.dll"
     },
     {
-      "hash": "sha256-nJJdr61egGbYBs2bvusHK7e91dWS00DPLTu+ZUeVeIg=",
+      "hash": "sha256-H6ZyWLe05MNF02g8dG5kk+gEI4w4sS1C7DHfsms1QJM=",
       "url": "_framework\/LatinoNetOnline.Admin.dll"
     },
     {
@@ -305,7 +305,7 @@
       "url": "_framework\/System.ObjectModel.dll"
     },
     {
-      "hash": "sha256-FfHiRnsVcYLXNAWWlnncDdTS4vRUfOeYMVAY+b6A5ho=",
+      "hash": "sha256-Bwh5kNYOphso3BFvCexy31LiK9WHou3wYMbM9prHUEI=",
       "url": "_framework\/System.Private.CoreLib.dll"
     },
     {
@@ -377,11 +377,11 @@
       "url": "_framework\/System.Xml.XDocument.dll"
     },
     {
-      "hash": "sha256-DNMz836\/\/lHoF+OSug930AI8Ze6FZZmLpv4pjZYrsx4=",
+      "hash": "sha256-cU8+h5hqZN4sCd8eL+qctAO\/f88MOd9lkInhU1QxbKk=",
       "url": "appsettings.Development.json"
     },
     {
-      "hash": "sha256-FD9E1SSvLCFH88GuPBEsE59+tpjtnHri5+X0HvWQFys=",
+      "hash": "sha256-Uy+UPIEZ3qdaSt+B\/ycqSA\/A1dVrXqhYa0zHxeK5cGk=",
       "url": "appsettings.json"
     },
     {
@@ -501,5 +501,5 @@
       "url": "_content\/Radzen.Blazor\/Radzen.Blazor.js"
     }
   ],
-  "version": "1vwLGmP6"
+  "version": "N\/GhJ90q"
 };

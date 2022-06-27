@@ -11,7 +11,7 @@
   "resources": {
     "assembly": {
       "Blazored.LocalStorage.dll": "sha256-6RRoYeDP3d0xabXmcCMF66wXeJlXVPem28Trs8sQiis=",
-      "LatinoNetOnline.Admin.dll": "sha256-nJJdr61egGbYBs2bvusHK7e91dWS00DPLTu+ZUeVeIg=",
+      "LatinoNetOnline.Admin.dll": "sha256-H6ZyWLe05MNF02g8dG5kk+gEI4w4sS1C7DHfsms1QJM=",
       "Microsoft.AspNetCore.Authorization.dll": "sha256-VSBUoZtHYFs3qCCDmLjB2FAVNQzA1Tgm1VgDJjFQ8nw=",
       "Microsoft.AspNetCore.Components.Authorization.dll": "sha256-BeW8MGTwWr6upCrklZ9dwUR4JPpJbjokBpQNXEv1Kjs=",
       "Microsoft.AspNetCore.Components.dll": "sha256-lnLOgxX+v1S3YBGbQ6qIM5kt5ULJ8HUIRMzrCY\/8tuQ=",
@@ -59,7 +59,7 @@
       "System.Net.Http.Json.dll": "sha256-fqOTHanJiRfMkSkzr9tP+goQtysal3qzSmk4RfmnjJ0=",
       "System.Net.Primitives.dll": "sha256-uVINitbWyy\/vnUat3PXznQZpypn9D0a3spTBqCHRzaI=",
       "System.ObjectModel.dll": "sha256-trLNxr9XpZc62MYXv\/eZO6hhDU3VfxunFoKfX5AYELw=",
-      "System.Private.CoreLib.dll": "sha256-FfHiRnsVcYLXNAWWlnncDdTS4vRUfOeYMVAY+b6A5ho=",
+      "System.Private.CoreLib.dll": "sha256-Bwh5kNYOphso3BFvCexy31LiK9WHou3wYMbM9prHUEI=",
       "System.Private.Runtime.InteropServices.JavaScript.dll": "sha256-zIqVXYY33Vz\/9tVoYb0fYm8KJofoZEz4xc4iNGgfXdU=",
       "System.Private.Uri.dll": "sha256-BXy9xLfFoAxo+GQo8COVORoS6PCPHfgQiHltv38C1ho=",
       "System.Private.Xml.dll": "sha256-FsESSUNwMGoj6BcE1TCnQefh3BcJChFIYyQ5Pw0TyBk=",
