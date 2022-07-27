@@ -20,7 +20,7 @@ namespace LatinoNetOnline.Admin.Services
 
     public class UnavailableDateService : IUnavailableDateService
     {
-        const string URL = "api/v1/callforspeakers-module/unavailabledates";
+        const string URL = "api/v1/webinars-module/unavailabledates";
 
         private readonly IApiClient _apiClient;
 

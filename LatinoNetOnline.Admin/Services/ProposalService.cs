@@ -29,7 +29,7 @@ namespace LatinoNetOnline.Admin.Services
 
     public class ProposalService : IProposalService
     {
-        const string URL = "api/v1/callforspeakers-module/proposals";
+        const string URL = "api/v1/webinars-module/proposals";
 
         private readonly IApiClient _apiClient;
 

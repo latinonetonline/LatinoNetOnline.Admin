@@ -13,7 +13,7 @@ namespace LatinoNetOnline.Admin.Services
 
     public class MetricoolService : IMetricoolService
     {
-        const string URL = "api/v1/callforspeakers-module/metricool";
+        const string URL = "api/v1/webinars-module/metricool";
 
         private readonly IApiClient _apiClient;
 
