@@ -11,7 +11,7 @@
   "resources": {
     "assembly": {
       "Blazored.LocalStorage.dll": "sha256-6RRoYeDP3d0xabXmcCMF66wXeJlXVPem28Trs8sQiis=",
-      "LatinoNetOnline.Admin.dll": "sha256-hgNPvPuxtZI6GLY4go8cQ9P9vZllOFPMQiovfyeKlRE=",
+      "LatinoNetOnline.Admin.dll": "sha256-tz9LycuZD7x7gfvFLRLxJf2r65mnEz3GeyaKvA+vN\/k=",
       "Microsoft.AspNetCore.Authorization.dll": "sha256-VSBUoZtHYFs3qCCDmLjB2FAVNQzA1Tgm1VgDJjFQ8nw=",
       "Microsoft.AspNetCore.Components.Authorization.dll": "sha256-BeW8MGTwWr6upCrklZ9dwUR4JPpJbjokBpQNXEv1Kjs=",
       "Microsoft.AspNetCore.Components.dll": "sha256-lnLOgxX+v1S3YBGbQ6qIM5kt5ULJ8HUIRMzrCY\/8tuQ=",
