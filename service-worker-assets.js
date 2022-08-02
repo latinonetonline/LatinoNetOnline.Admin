@@ -105,7 +105,7 @@
       "url": "_framework\/icudt.dat"
     },
     {
-      "hash": "sha256-7CXKJsUsOY7DrN6cNf88IJ+VjeJuSNmmfLRHjBOihwk=",
+      "hash": "sha256-3m0TkOHF+WWIQRS+04q3sMR6\/utmLaNdxwhToVSWjrA=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -113,7 +113,7 @@
       "url": "_framework\/Blazored.LocalStorage.dll"
     },
     {
-      "hash": "sha256-4+5gGMxgh1akZKsrApf8dEsOQUqoBKSCu\/Qt2DbFO1A=",
+      "hash": "sha256-7\/QCQy6yAZNF5g9zWAppO9hiNVz1e2kNp+bD0i6IXcc=",
       "url": "_framework\/LatinoNetOnline.Admin.dll"
     },
     {
@@ -501,5 +501,5 @@
       "url": "_content\/Radzen.Blazor\/Radzen.Blazor.js"
     }
   ],
-  "version": "vYBB8rco"
+  "version": "+ctVlwNf"
 };
