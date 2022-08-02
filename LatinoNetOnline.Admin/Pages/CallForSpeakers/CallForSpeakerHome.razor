@@ -15,45 +15,48 @@ else
     <h1>Call For Speakers</h1>
 
     <RadzenDataGrid AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" PageSize="5"
-    AllowPaging="true" AllowSorting="true" Data="@filteredProposals" TItem="ProposalFull" ColumnWidth="300px"
-    LogicalFilterOperator="LogicalFilterOperator.Or">
+                AllowPaging="true" AllowSorting="true" Data="@filteredProposals" TItem="ProposalFull" ColumnWidth="300px"
+                LogicalFilterOperator="LogicalFilterOperator.Or">
         <Columns>
             <RadzenDataGridColumn TItem="ProposalFull" Title="Photo" Sortable="false" Filterable="false" Width="200px">
                 <Template Context="data">
                     @foreach (var speaker in data.Speakers)
                     {
-                <RadzenImage Path="@speaker.Image.ToString()" style="width: 40px; height: 40px; border-radius: 8px;" />
-                }
-            </Template>
-        </RadzenDataGridColumn>
-        <RadzenDataGridColumn TItem="ProposalFull" Title="Speakers">
-            <Template Context="data">
-                @string.Join(" - ", data.Speakers.Select(x => x.Name + " " + x.LastName).ToArray())
-            </Template>
-        </RadzenDataGridColumn>
-        <RadzenDataGridColumn TItem="ProposalFull" Property="Proposal.Title" Title="Título" Width="150px" />
-        <RadzenDataGridColumn TItem="ProposalFull" Property="Proposal.EventDate" Title="Fecha del Evento"
-            FormatString="{0:d}">
-            <FilterTemplate>
-                <RadzenDropDown @bind-Value="@monthSelected" TextProperty="Text" ValueProperty="Value"
-                    Style="width:100%" Change=@OnChange
-                    Data="@monthNames.Select(m => new { Text = m, Value = Array.IndexOf(monthNames, m) + 1 })" />
+                        <RadzenImage Path="@speaker.Image.ToString()" style="width: 40px; height: 40px; border-radius: 8px;" />
+                    }
+                </Template>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="ProposalFull" Title="Speakers">
+                <Template Context="data">
+                    @string.Join(" - ", data.Speakers.Select(x => x.Name + " " + x.LastName).ToArray())
+                </Template>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="ProposalFull" Property="Proposal.Title" Title="Título" Width="150px" />
+            <RadzenDataGridColumn TItem="ProposalFull" Property="Proposal.EventDate" Title="Fecha del Evento"
+                              FormatString="{0:d}">
+                <FilterTemplate>
+                    <RadzenDropDown @bind-Value="@monthSelected" TextProperty="Text" ValueProperty="Value"
+                                Style="width:100%" Change=@OnChange
+                                Data="@monthNames.Select(m => new { Text = m, Value = Array.IndexOf(monthNames, m) + 1 })" />
 
-            </FilterTemplate>
-        </RadzenDataGridColumn>
-        <RadzenDataGridColumn TItem="ProposalFull" Property="Proposal.CreationTime" Title="Fecha de postulación"
-            FormatString="{0:d}" />
+                </FilterTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="ProposalFull" Property="Proposal.CreationTime" Title="Fecha de postulación"
+                              FormatString="{0:d}" />
 
-        <RadzenDataGridColumn TItem="ProposalFull" Filterable="false" Sortable="false"
-            TextAlign="TextAlign.Center" Width="70px">
-            <Template Context="data">
-                <RadzenButton ButtonStyle="ButtonStyle.Info" Icon="youtube_searched_for" Size="ButtonSize.Medium"
-                     @onclick:stopPropagation="true" Click="@(args => NavigationManager.NavigateTo("CallForSpeakers/" + data.Proposal.ProposalId.ToString()))">
-                </RadzenButton>
-            </Template>
-        </RadzenDataGridColumn>
-    </Columns>
-</RadzenDataGrid>
+            <RadzenDataGridColumn TItem="ProposalFull" Filterable="false" Sortable="false"
+                              TextAlign="TextAlign.Center" Width="70px">
+                <Template Context="data">
+                    <RadzenButton ButtonStyle="ButtonStyle.Info" Icon="youtube_searched_for" Size="ButtonSize.Medium"
+                              @onclick:stopPropagation="true" Click="@(args => NavigationManager.NavigateTo("CallForSpeakers/" + data.Proposal.ProposalId.ToString()))">
+                    </RadzenButton>
+                </Template>
+            </RadzenDataGridColumn>
+        </Columns>
+    </RadzenDataGrid>
+    <RadzenCheckBox @bind-Value=@getProposalsOldest Name="CheckBox1" TValue="bool" Change=@(async args => await OnOldestChange()) />
+    <RadzenLabel Text="Mostrar webinars pasados" Component="CheckBox1" Style="margin-left: 8px; vertical-align: middle;" />
+
 }
 
 
@@ -66,14 +69,25 @@ else
     string[] monthNames;
     int monthSelected = 0;
     int yearSelected = DateTime.Today.Year;
+    bool getProposalsOldest = false;
     protected override async Task OnInitializedAsync()
     {
-
-        var proposalsResult = await ProposalService.GetAllAsync();
+        var proposalsResult = await ProposalService.GetAllAsync(new ProposalFilter() { Oldest = getProposalsOldest });
         proposals = proposalsResult.Result;
         filteredProposals = proposals;
         monthNames = DateTimeFormatInfo.CurrentInfo.MonthNames;
 
+        loading = false;
+
+    }
+
+    async Task OnOldestChange()
+    {
+        loading = true;
+        var proposalsResult = await ProposalService.GetAllAsync(new ProposalFilter() { Oldest = getProposalsOldest });
+
+        proposals = proposalsResult.Result;
+        filteredProposals = proposals;
         loading = false;
     }
 
