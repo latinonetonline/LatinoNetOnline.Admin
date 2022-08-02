@@ -10,6 +10,6 @@ namespace LatinoNetOnline.Admin.Models.Proposals
         public string Email { get; set; }
         public string Twitter { get; set; }
         public string Description { get; set; }
-        public Uri Image { get; set; }
+        public string Image { get; set; }
     }
 }

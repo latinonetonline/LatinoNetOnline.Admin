@@ -69,6 +69,15 @@ else
                             <RadzenTextBox @bind-Value="speaker.Twitter" Placeholder="Twitter" style="width: 100%;" Name="Twitter" />
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md-3 align-items-center d-flex">
+                            <RadzenLabel Text="Foto" />
+                        </div>
+                        <div class="col-md-8">
+                            <RadzenTextBox @bind-Value="speaker.Image" Placeholder="Image" style="width: 100%;" Name=@(speaker.SpeakerId + "Nombre") />
+                            <RadzenRequiredValidator Component=@(speaker.SpeakerId + "Nombre") Text="Ingrese una imagen" Popup=true Style="position: absolute;" />
+                        </div>
+                    </div>
                 </RadzenTabsItem>
             }
 
@@ -240,7 +249,7 @@ else
 
         loading = true;
 
-        IEnumerable<UpdateSpeakerInput> speakers = proposal.Speakers.Select(x => new UpdateSpeakerInput(x.SpeakerId, x.Name, x.LastName, x.Email, x.Twitter, x.Description));
+        IEnumerable<UpdateSpeakerInput> speakers = proposal.Speakers.Select(x => new UpdateSpeakerInput(x.SpeakerId, x.Name, x.LastName, x.Email, x.Twitter, x.Description, x.Image));
 
         UpdateProposalInput proposalInput = new(proposal.Proposal.ProposalId, proposal.Proposal.Title, proposal.Proposal.Description, proposal.Proposal.EventDate, proposal.Proposal.AudienceAnswer, proposal.Proposal.KnowledgeAnswer, proposal.Proposal.UseCaseAnswer, proposal.Proposal.WebinarNumber, proposal.Proposal.Meetup, proposal.Proposal.Streamyard, proposal.Proposal.LiveStreaming, proposal.Proposal.Flyer, proposal.Proposal.Views, proposal.Proposal.LiveAttends, speakers);
 
