@@ -1,3 +1,4 @@
+
 using System;
 
 namespace LatinoNetOnline.Admin.Models.Proposals
@@ -19,5 +20,7 @@ namespace LatinoNetOnline.Admin.Models.Proposals
         public string LiveStreaming { get; set; }
         public string Flyer { get; set; }
         public bool IsActive { get; set; }
+        public int? Views { get; set; }
+        public int? LiveAttends { get; set; }
     }
 }

@@ -131,9 +131,9 @@ else
         </div>
     </RadzenFieldset>
 
-     <RadzenFieldset Text="Webinar">
+    <RadzenFieldset Text="Webinar">
 
-         
+
 
         <div class="row">
             <div class="col-md-3 align-items-center d-flex">
@@ -148,7 +148,7 @@ else
                 <RadzenLabel Text="Streamyard" />
             </div>
             <div class="col-md-8">
-                <RadzenTextBox @bind-Value="proposal.Proposal.Streamyard"  Placeholder="Link para invitar al Streamyard" style="width: 100%;" Name="Streamyard" />
+                <RadzenTextBox @bind-Value="proposal.Proposal.Streamyard" Placeholder="Link para invitar al Streamyard" style="width: 100%;" Name="Streamyard" />
             </div>
         </div>
         <div class="row">
@@ -178,10 +178,36 @@ else
     </RadzenFieldset>
 
 
+    <RadzenFieldset Text="Reportes">
+
+
+
+        <div class="row">
+            <div class="col-md-3 align-items-center d-flex">
+                <RadzenLabel Text="Youtube Views" />
+            </div>
+            <div class="col-md-8">
+                <RadzenNumeric TValue="int?" style="width: 100%;" @bind-Value=@proposal.Proposal.Views />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3 align-items-center d-flex">
+                <RadzenLabel Text="Youtube Asistentes en Vivo" />
+            </div>
+            <div class="col-md-8">
+                <RadzenNumeric TValue="int?" style="width: 100%;" @bind-Value=@proposal.Proposal.LiveAttends />
+            </div>
+        </div>
+
+
+    </RadzenFieldset>
+
+
     <div class="row justify-content-center">
         <div class="col-md-12 d-flex align-items-end justify-content-center" style="margin-top: 16px;">
             <RadzenButton ButtonType="ButtonType.Submit" Icon="save" Text="Guardar" />
-            <RadzenButton ButtonStyle="ButtonStyle.Danger" ButtonType="ButtonType.Button" Icon="remove" Text="Eliminar" Click="@Delete"/>
+            <RadzenButton ButtonStyle="ButtonStyle.Danger" ButtonType="ButtonType.Button" Icon="remove" Text="Eliminar" Click="@Delete" />
             <RadzenButton ButtonStyle="ButtonStyle.Light" Icon="cancel" style="display: inline-block; margin-left: 10px;" Text="Cancelar" Click="@Cancel" />
         </div>
     </div>
@@ -216,7 +242,7 @@ else
 
         IEnumerable<UpdateSpeakerInput> speakers = proposal.Speakers.Select(x => new UpdateSpeakerInput(x.SpeakerId, x.Name, x.LastName, x.Email, x.Twitter, x.Description));
 
-        UpdateProposalInput proposalInput = new(proposal.Proposal.ProposalId, proposal.Proposal.Title, proposal.Proposal.Description, proposal.Proposal.EventDate, proposal.Proposal.AudienceAnswer, proposal.Proposal.KnowledgeAnswer, proposal.Proposal.UseCaseAnswer, proposal.Proposal.WebinarNumber, proposal.Proposal.Meetup, proposal.Proposal.Streamyard, proposal.Proposal.LiveStreaming, proposal.Proposal.Flyer, speakers);
+        UpdateProposalInput proposalInput = new(proposal.Proposal.ProposalId, proposal.Proposal.Title, proposal.Proposal.Description, proposal.Proposal.EventDate, proposal.Proposal.AudienceAnswer, proposal.Proposal.KnowledgeAnswer, proposal.Proposal.UseCaseAnswer, proposal.Proposal.WebinarNumber, proposal.Proposal.Meetup, proposal.Proposal.Streamyard, proposal.Proposal.LiveStreaming, proposal.Proposal.Flyer, proposal.Proposal.Views, proposal.Proposal.LiveAttends, speakers);
 
         var result = await ProposalService.UpdateAsync(proposalInput);
 
