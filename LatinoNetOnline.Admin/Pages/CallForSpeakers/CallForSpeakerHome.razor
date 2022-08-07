@@ -54,6 +54,9 @@ else
             </RadzenDataGridColumn>
         </Columns>
     </RadzenDataGrid>
+    <RadzenCheckBox @bind-Value=@getProposalsOldest Name="CheckBox1" TValue="bool" Change=@(async args => await OnOldestChange()) />
+    <RadzenLabel Text="Mostrar webinars pasados" Component="CheckBox1" Style="margin-left: 8px; vertical-align: middle;" />
+
 }
 
 
@@ -66,14 +69,25 @@ else
     string[] monthNames;
     int monthSelected = 0;
     int yearSelected = DateTime.Today.Year;
+    bool getProposalsOldest = false;
     protected override async Task OnInitializedAsync()
     {
-
-        var proposalsResult = await ProposalService.GetAllAsync();
+        var proposalsResult = await ProposalService.GetAllAsync(new ProposalFilter() { Oldest = getProposalsOldest });
         proposals = proposalsResult.Result;
         filteredProposals = proposals;
         monthNames = DateTimeFormatInfo.CurrentInfo.MonthNames;
 
+        loading = false;
+
+    }
+
+    async Task OnOldestChange()
+    {
+        loading = true;
+        var proposalsResult = await ProposalService.GetAllAsync(new ProposalFilter() { Oldest = getProposalsOldest });
+
+        proposals = proposalsResult.Result;
+        filteredProposals = proposals;
         loading = false;
     }
 

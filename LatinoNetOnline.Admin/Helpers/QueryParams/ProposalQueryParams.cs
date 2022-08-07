@@ -17,6 +17,10 @@ namespace LatinoNetOnline.Admin.Helpers.QueryParams
             if (filter.IsActive.HasValue)
                 queryParams = QueryParamsHelper.AddParams(queryParams, $"isActive={filter.IsActive.Value}");
 
+            if (filter.Oldest.HasValue)
+                queryParams = QueryParamsHelper.AddParams(queryParams, $"oldest={filter.Oldest.Value}");
+
+
             return queryParams;
         }
     }

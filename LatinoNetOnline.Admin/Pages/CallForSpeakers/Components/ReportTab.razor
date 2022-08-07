@@ -1,0 +1,38 @@
+﻿@inject IProposalService Service
+@inject IMetricoolService MetricoolService
+@inject IJSRuntime JSRuntime
+@using System.IO
+@using System.Text
+@inject DialogService DialogService
+
+<RadzenCard Style="width:100%;">
+    <div class="row">
+        <div class="col-md-12">
+            <div>Titulo</div>
+            <p>Webinar #@(Proposal.WebinarNumber): @(Proposal.Title)</p>
+            <CopyToClipboard Text=@($"Webinar #{Proposal.WebinarNumber}: {Proposal.Title}") />
+            <div style="margin-top:20px">Meetup:</div>
+            <p>@(Proposal.Meetup)</p>
+            <CopyToClipboard Text=@(Proposal.Meetup) / />
+            <div style="margin-top:20px">Youtube:</div>
+            <p>@(Proposal.LiveStreaming)</p>
+            <CopyToClipboard Text=@(Proposal.LiveStreaming) />
+            <div style="margin-top:20px">Youtube Views</div>
+            <b>@(Proposal.Views)</b>
+            <div style="margin-top:20px">Youtube Asistentes en Vivo</div>
+            <b>@(Proposal.LiveAttends)</b>
+            <br />
+
+
+        </div>
+    </div>
+
+
+</RadzenCard>
+
+@code {
+    [Parameter]
+    public Proposal Proposal { get; set; }
+
+
+}
