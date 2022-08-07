@@ -49,19 +49,15 @@ else
 
 @code {
 
-    RadzenDataGrid<ProposalFull> speakersGrid;
     IEnumerable<Speaker> speakers;
     bool loading = true;
-    string[] monthNames;
-    int monthSelected = 0;
+
     int yearSelected = DateTime.Today.Year;
-    bool getProposalsOldest = false;
     protected override async Task OnInitializedAsync()
     {
         var speakersResult = await SpeakerService.GetAllAsync();
         speakers = speakersResult.Result;
 
-        monthNames = DateTimeFormatInfo.CurrentInfo.MonthNames;
 
         loading = false;
 
