@@ -81,4 +81,4 @@ function onMessage(event) {
     }
 }
 
-/* Manifest version: cjEexMAT */
+/* Manifest version: xdapF45r */
