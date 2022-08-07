@@ -1,0 +1,70 @@
+﻿@page "/speakers"
+@inject ISpeakerService SpeakerService
+@inject NavigationManager NavigationManager
+
+@attribute [Authorize(Roles = "Admin")]
+
+
+@if (loading)
+{
+    <RadzenProgressBar Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" Style="margin-bottom: 20px" />
+}
+else
+{
+
+    <h1>Speakers</h1>
+
+    <RadzenDataGrid AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" PageSize="5"
+                AllowPaging="true" AllowSorting="true" Data="@speakers" TItem="Speaker" class="table-responsive"
+                LogicalFilterOperator="LogicalFilterOperator.Or">
+        <Columns>
+            <RadzenDataGridColumn TItem="Speaker" Title="Photo" Sortable="false" Filterable="false" Width="200px">
+                <Template Context="data">
+
+                    <RadzenImage Path="@data.Image.ToString()" style="width: 40px; height: 40px; border-radius: 8px;" />
+
+                </Template>
+            </RadzenDataGridColumn>
+
+
+            <RadzenDataGridColumn TItem="Speaker" Property="Name" Title="Nombre" />
+            <RadzenDataGridColumn TItem="Speaker" Property="LastName" Title="Apellido" />
+            <RadzenDataGridColumn TItem="Speaker" Property="Email" Title="Email" />
+            <RadzenDataGridColumn TItem="Speaker" Property="Twitter" Title="Twitter" />
+            <RadzenDataGridColumn TItem="Speaker" Property="Description" Title="Descripción" />
+
+            <RadzenDataGridColumn TItem="Speaker" Filterable="false" Sortable="false"
+                              TextAlign="TextAlign.Center" Width="70px">
+                <Template Context="data">
+                    <RadzenButton ButtonStyle="ButtonStyle.Info" Icon="youtube_searched_for" Size="ButtonSize.Medium"
+                              @onclick:stopPropagation="true" Click="@(args => NavigationManager.NavigateTo("CallForSpeakers/" + data.SpeakerId.ToString()))">
+                    </RadzenButton>
+                </Template>
+            </RadzenDataGridColumn>
+        </Columns>
+    </RadzenDataGrid>
+
+}
+
+
+@code {
+
+    RadzenDataGrid<ProposalFull> speakersGrid;
+    IEnumerable<Speaker> speakers;
+    bool loading = true;
+    string[] monthNames;
+    int monthSelected = 0;
+    int yearSelected = DateTime.Today.Year;
+    bool getProposalsOldest = false;
+    protected override async Task OnInitializedAsync()
+    {
+        var speakersResult = await SpeakerService.GetAllAsync();
+        speakers = speakersResult.Result;
+
+        monthNames = DateTimeFormatInfo.CurrentInfo.MonthNames;
+
+        loading = false;
+
+    }
+
+}

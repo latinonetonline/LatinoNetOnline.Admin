@@ -12,6 +12,7 @@ using Radzen;
 
 using System.Net.Http;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace LatinoNetOnline.Admin
@@ -56,13 +57,14 @@ namespace LatinoNetOnline.Admin
             builder.Services.AddScoped<IMeetupService, MeetupService>();
             builder.Services.AddScoped<IMetricoolService, MetricoolService>();
             builder.Services.AddScoped<IUnavailableDateService, UnavailableDateService>();
+            builder.Services.AddScoped<ISpeakerService, SpeakerService>();
 
             builder.Services.AddScoped<IApiClient, ApiClient>();
 
             builder.Services.AddBlazoredLocalStorage(config =>
             {
                 config.JsonSerializerOptions.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
-                config.JsonSerializerOptions.IgnoreNullValues = true;
+                config.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.Always;
                 config.JsonSerializerOptions.IgnoreReadOnlyProperties = true;
                 config.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
                 config.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
